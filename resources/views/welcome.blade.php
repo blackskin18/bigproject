@@ -65,6 +65,7 @@
         </style>
     </head>
     <body>
+    {{ csrf_field() }}
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
