@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Join;
+use App\comment;
+use App\Follow;
 
 class User extends Authenticatable
 {
@@ -15,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password','avatar','introduce','phone','sex','verhicle','birthday'
     ];
 
     /**
@@ -26,4 +29,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    protected $table='users';
+    public function join(){
+        return $this->hasMany('App\Join');  
+    }
+    public function comment(){
+        return $this->hasMany('App\comment');
+    }
+    public function follow(){
+        return $this->hasMany('App\Follow');
+    }
 }
