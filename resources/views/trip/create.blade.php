@@ -193,9 +193,10 @@
         var markers = new Array();
 	    var marker;
 	    var map;
-
+	    var markers_index;
       	var directionsDisplay;
       	var directionsService;
+
 
   		function initAutocomplete() {
 	    	address_index = 1;
@@ -208,10 +209,8 @@
 
 			directionsService = new google.maps.DirectionsService;
 		  	directionsDisplay = new google.maps.DirectionsRenderer({
-		  		draggable:true,
 			    map: map,
 	  		});
-
 	      	geocoder = new google.maps.Geocoder();
 
 			google.maps.event.addListener(map, 'click', function(event) {
@@ -234,16 +233,24 @@
 		    	$("#end_place"+address_index).val(text);
 		    	$("#start_place").val(text);
 
-
 		    	makeMaker(event.latLng);
 		    	placeMarker(event.latLng);
 		    	markers.push(marker);
 		    	directions();
 
-
+		    	var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
+				markers[index].addListener("rightclick", function() {
+					index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
+					markers[index].setMap(null);
+					markers.splice(index,1);
+					index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
+					console.log(markers);
+					if(markers.length>0){
+					directions();}
+				});
 			});
-			
-			var makeMaker = function(location) {
+
+			function makeMaker(location) {
 					xmarker = new google.maps.Marker({
 				    position: location,
 				    animation: google.maps.Animation.DROP,
@@ -270,31 +277,35 @@
     		}
 
 		    function getAddress(latLng) {
-
 		        geocoder.geocode( {'latLng': latLng},
 		        function(results, status) {
 		            if(status == google.maps.GeocoderStatus.OK) {
 		            	var end_place = address_index-1;
-		            	console.log(address_index);
-		            	console.log(start_place);
+		            	
 		                if(results[0]) {
 		                    document.getElementById("address"+address_index).value = results[0].formatted_address;
-		                    document.getElementById("end_place"+end_place).value = results[0].formatted_address;
+		                    if(markers.length==1){
+		                    	document.getElementById("end_place2").value = results[0].formatted_address;
+		                    } else {
+								document.getElementById("end_place"+end_place).value = results[0].formatted_address;
+							}
 		                } else {
 		                    document.getElementById("address"+address_index).value = "No results";
-		                    document.getElementById("end_place"+end_place).value = "No results";
+		                    document.getElementById("end_place").value = "No results";
+		                    
 		                }
 		            } else {
 		            	address_index++;
 		            	var start_place = address_index-1;
 		                document.getElementById("address"+address_index).value = status;
 		                document.getElementById("end_place"+end_place).value = status;
+		                
 		            }
 		        });
 		    }
 
 
-        // Create the search box and link it to the UI element.
+        	// Create the search box and link it to the UI element.
 	        var input = document.getElementById('pac-input');
 	        var searchBox = new google.maps.places.SearchBox(input);
 	        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -350,7 +361,6 @@
 			  	});
 	  		displayRoute(markers[0].getPosition(),markers[0].getPosition(), directionsService,
 	      	directionsDisplay);
-			
 		}
 
 		function displayRoute(origin, destination, service, display) {
@@ -365,7 +375,6 @@
 			  service.route({
 			    origin: origin,
 			    destination: destination,
-			    // waypoints: [{location: new google.maps.LatLng(21.001188992464375, 106.03676676750183)}, {location: new google.maps.LatLng(20.793349950582417, 106.0024344921112)}],
 			    waypoints: markerArray,
 			    travelMode: 'DRIVING',
 			    avoidTolls: true
@@ -376,7 +385,7 @@
 			      alert('Could not display directions due to: ' + status);
 			    }
 			  });
-			}
+		}
 
 		function computeTotalDistance(result) {
 		  	var total = 0;
@@ -420,7 +429,6 @@
 		      marker.setAnimation(google.maps.Animation.BOUNCE);
 		    }
 	  	}
-
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&libraries=places&callback=initAutocomplete"
     async defer></script>
