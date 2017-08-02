@@ -176,21 +176,22 @@
 	  	<div class="chapter">
 	  		<p>----------------------------------------------------------------------------</p>
 	  	</div>
-	  	<form class="bookmarks-list content"></form>
+	  	<div class="bookmarks-list content"></div>
 		<div>
-			<input onclick="clearMarkers();" type=button value="Hide Markers">
+<!-- 			<input onclick="clearMarkers();" type=button value="Hide Markers">
 		    <input onclick="showMarkers();" type=button value="Show All Markers">
 		    <input onclick="deleteMarkers();" type=button value="Delete Markers">
 			<input onclick="directions()" type="button" value="display route">
-			<input type="button" onclick="hiddenRoute()" value="hidden route">
+			<input type="button" onclick="hiddenRoute()" value="hidden route"> -->
 		</div>
 	</div>
 
 
 
     <script>
-
-        var markers = new Array();
+    // bắt đầu
+    	var json = [];
+        var markers = [];
 	    var marker;
 	    var map;
 	    var markers_index;
@@ -217,16 +218,22 @@
 				address_index++;
 				var start_place = address_index-1;
 		    	//pushMarker(event.latLng);
+		    	// createBookmark();
 		    	$(document).ready(function() {
-		    		$('<br><h6> ------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h6>').insertAfter('div.chapter p');
-		    		$( '<input id="lat'+address_index+'" type="hidden">').insertAfter('div.chapter p');
-		    		$( '<input id="lng'+address_index+'" type="hidden">').insertAfter('div.chapter p');
-		    		$('<label for="">note </label> <input type="text" >').insertAfter('div.chapter p');
-		    		$('<label for="">vehicle </label> <input type="text" >').insertAfter('div.chapter p');
-		    		$( '<label for="">place end</label> <input id="end_place'+address_index+'" type="text">').insertAfter('div.chapter p');
-		    		$( '<label for="">place start</label> <input id="address'+address_index+'" type="text">').insertAfter('div.chapter p');
-		    		$('<label for=""> time end </label><input type="datetime-local">').insertAfter('div.chapter p');
-		    		$('<label for="">time start </label> <input type="datetime-local" >').insertAfter('div.chapter p');
+
+		    		$(`<div id ="plan`+address_index+`">
+		    			<br><h6> ------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h6>
+		    			<label for="">time start </label> <input type="datetime-local" > 
+		    			<label for=""> time end </label><input type="datetime-local">
+		    			<label for="">place start</label> <input id="address`+address_index+`" type="text">
+		    			<label for="">place end</label> <input id="end_place`+address_index+`" type="text">
+						<label for="">vehicle </label> <input type="text" >
+						<label for="">note </label> <input type="text" >
+						<input id="lng`+address_index+`" type="hidden">
+						<input id="lat`+address_index+`" type="hidden">
+						<div>
+		    			`).insertAfter('div.chapter p');
+
 				});
 
 		    	var text = document.getElementById("address2").value;
@@ -234,19 +241,46 @@
 		    	$("#start_place").val(text);
 
 		    	makeMaker(event.latLng);
-		    	placeMarker(event.latLng);
 		    	markers.push(marker);
-		    	directions();
+		    	placeMarker(event.latLng);
 
+		    	if(markers.length > 1){
+		    		json.push({ "location1": [markers[markers.length-2].getPosition().lat(), markers[markers.length-2].getPosition().lng()],
+	    						"location2": [markers[markers.length-1].getPosition().lat(), markers[markers.length-1].getPosition().lng()]});
+		    	}
+
+		    	directions();
+		    	console.table(json);
+		    	// delete one marker wwhen right click
 		    	var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
 				markers[index].addListener("rightclick", function() {
-					index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-					markers[index].setMap(null);
+					clearMarkers();
 					markers.splice(index,1);
-					index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-					console.log(markers);
+					
+					// if(index == 0){
+					// 	json.splice(index,1);
+					// 	console.log("đầu");
+					// } else if(index == markers.length) {
+					// 	json.splice(index-1,1);
+					// 	console.log("cuối");
+					// } else {
+					// 	json[index-1].location2[0] = json[index].location2[0];
+					// 	json[index-1].location2[1] = json[index].location2[1];
+					// 	json.splice(index,1);
+					// 	console.log("giữa");
+					// }
+					console.table(json);
+					showMarkers();
 					if(markers.length>0){
 					directions();}
+					index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
+				});
+
+
+				markers[index].addListener("dragend",function() {
+					console.log(markers[index].getPosition().lat());
+					markers[index].setPosition = markers.getPosition;
+
 				});
 			});
 
@@ -271,7 +305,6 @@
 		    		$("#lat"+address_index).val(lat);
 		    		$("#lng"+address_index).val(lng);
 		    		directions();
-
 		    	});
 		        getAddress(location);
     		}
@@ -281,7 +314,6 @@
 		        function(results, status) {
 		            if(status == google.maps.GeocoderStatus.OK) {
 		            	var end_place = address_index-1;
-		            	
 		                if(results[0]) {
 		                    document.getElementById("address"+address_index).value = results[0].formatted_address;
 		                    if(markers.length==1){
@@ -354,7 +386,6 @@
       	}
 
 		function directions() {
-
 	  		directionsDisplay.setMap(map);
 		  	directionsDisplay.addListener('directions_changed', function() {
 			    computeTotalDistance(directionsDisplay.getDirections());
@@ -429,6 +460,91 @@
 		      marker.setAnimation(google.maps.Animation.BOUNCE);
 		    }
 	  	}
+	// kết thúc
+
+    // =========================
+
+    const bookmarksList = document.querySelector('.bookmarks-list');
+    const bookmarks     = JSON.parse(localStorage.getItem('bookmarks')) || [];
+
+    fillBookmarksList(bookmarks);
+
+    function createBookmark(e) {
+      // e.preventDefault();
+
+      // add a new bookmark to the bookmarks
+      const title    = "asdasd";    
+      const bookmark = {
+        title: title
+      };
+
+      bookmarks.push(bookmark);
+      fillBookmarksList(bookmarks);
+      storeBookmarks(bookmarks);
+
+      console.table(bookmarks);
+      // save that bookmarks list to localStorage
+      // const title        = bookmarkInput.value;      
+      // const bookmark     = document.createElement('a');
+      // bookmark.className = 'bookmark';
+      // bookmark.innerText = title;
+      // bookmark.href      = '#';
+      // bookmark.target    = '_blank';
+      // bookmarksList.appendChild(bookmark);
+    }
+
+    function fillBookmarksList(bookmarks = []) {
+      const bookmarksHtml = bookmarks.map((bookmark, i) => {
+        return `
+				<div id ="plan">
+	    			<br><h6> ------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h6>
+	    			<label for="">time start </label> <input type="datetime-local" > 
+	    			<label for=""> time end </label><input type="datetime-local">
+	    			<label for="">place start</label> <input id="address" type="text">
+	    			<label for="">place end</label> <input id="end_place" type="text">
+					<label for="">vehicle </label> <input type="text" >
+					<label for="">note </label> <input type="text" >
+					<input id="lng" type="hidden">
+					<input id="lat" type="hidden">
+					<span class="glyphicon glyphicon-remove"></span>
+					<div>
+        `;
+      }).join('');     
+
+      bookmarksList.innerHTML = bookmarksHtml;    
+
+      // let bookmarksHtml = '';
+      // for (let i = 0; i < bookmarks.length; i++) {
+      //   bookmarksHtml += `
+      //     <a href="#" class="bookmark">
+      //       ${bookmarks[i].title}
+      //     </a>
+      //   `;
+      // }
+      // console.log(bookmarksHtml);        
+    }
+
+    function removeBookmark(e) {
+      if (!e.target.matches('.glyphicon-remove')) return;
+
+      // find the index
+      // remove from the bookmarks using splice
+      // fill the list
+      // store back to localStorage
+      const index = e.target.parentNode.dataset.id;
+      bookmarks.splice(index, 1);
+      fillBookmarksList(bookmarks);
+      storeBookmarks(bookmarks); 
+    }
+
+    function storeBookmarks(bookmarks = []) {
+      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+
+    bookmarksList.addEventListener('click', removeBookmark);
+
+
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&libraries=places&callback=initAutocomplete"
     async defer></script>
