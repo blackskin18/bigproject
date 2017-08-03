@@ -6,7 +6,7 @@
     <title>Places Searchbox</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-     <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -177,7 +177,6 @@
 	  	<div class="chapter" id="list-plan">
 	  		<p>----------------------------------------------------------------------------</p>
 	  	</div>
-	  	<div class="bookmarks-list content"></div>
 		<div>
 <!-- 			<input onclick="clearMarkers();" type=button value="Hide Markers">
 		    <input onclick="showMarkers();" type=button value="Show All Markers">
@@ -230,20 +229,16 @@
 		    			<label for="">place end</label> <input id="end_place`+address_index+`" type="text">
 						<label for="">vehicle </label> <input type="text" >
 						<label for="">note </label> <input type="text" >
-						<input id="lng`+address_index+`" type="hidden">
-						<input id="lat`+address_index+`" type="hidden">
+						<input id="lat`+address_index+`" type="text">
+						<input id="lng`+address_index+`" type="text">
 						<div>
 		    			`).insertAfter('div.chapter p');
 				});
-
-		    	var text = document.getElementById("address2").value;
-		    	$("#end_place"+address_index).val(text);
-		    	$("#start_place").val(text);
+		    	getAddress(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(6)');
 
 		    	makeMaker(event.latLng);
 		    	markers.push(marker);
-		    	placeMarker(event.latLng);
-
+		    	//placeMarker(event.latLng);
 		    	if(markers.length > 1){
 		    		json.push({ "location1": [markers[markers.length-2].getPosition().lat(), markers[markers.length-2].getPosition().lng()],
 	    						"location2": [markers[markers.length-1].getPosition().lat(), markers[markers.length-1].getPosition().lng()]});
@@ -252,16 +247,19 @@
 		    	directions();
 		    	// delete one marker wwhen right click
 		    	//var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-				markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("rightclick", function() {
+		    	var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
+				markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("rightclick", function(event) {
 					// clear all marker
-					//console.log(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}));
-
 					clearMarkers();
-					var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})+1;
+					// delete maker when click;
+					
+					console.log(index);
+					var a =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
+					$('#list-plan div:nth-last-of-type('+a+')').remove();
 					markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
 					
-					console.log(index)
-					$('#list-plan div:nth-last-of-type('+index+')').remove();
+					// remove input plan;
+					
 					// if(index == 0)
 					// 	json.splice(index,1);
 					// 	console.log("đầu");
@@ -279,14 +277,16 @@
 					showMarkers();
 					if(markers.length>0){
 					directions();}
-					// index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-
+					// index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})+1;
 				});
-				//index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-				// markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("dragend",function() {
-				// 	markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].setPosition = markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].getPosition;
-
-				// });
+				markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("dragend", function(e) {
+					console.log(index);
+					getAddress(e.latLng,'#list-plan div:nth-last-of-type('+index+') input:nth-last-of-type(6)');
+					$('#list-plan div:nth-last-of-type('+index+') input:nth-last-of-type(2)').val(e.latLng.lat());
+					$('#list-plan div:nth-last-of-type('+index+') input:nth-last-of-type(1)').val(e.latLng.lng());
+					console.log(e.latLng.lat());
+					directions();
+				});
 			});
 
 			function makeMaker(location) {
@@ -314,34 +314,20 @@
 		        getAddress(location);
     		}
 
-		    function getAddress(latLng) {
+		    function getAddress(latLng,selecter) {
 		        geocoder.geocode( {'latLng': latLng},
 		        function(results, status) {
 		            if(status == google.maps.GeocoderStatus.OK) {
-		            	var end_place = address_index-1;
+		            	// console.log(google.maps.GeocoderStatus.OK);
 		                if(results[0]) {
-		                    $('#address'+address_index+'').val(results[0].formatted_address);
-		                    //document.getElementById("address"+address_index).value = results[0].formatted_address;
-		                    if(markers.length==1){
-		                    	$('#end_place2'+address_index+'').val(results[0].formatted_address);
-		                    	//document.getElementById("end_place2").value = results[0].formatted_address;
-		                    } else {
-		                    	$('#end_place'+end_place+'').val(results[0].formatted_address);
-								//document.getElementById("end_place"+end_place).value = results[0].formatted_address;
-							}
+		                    $(selecter).val(results[0].formatted_address);
 		                } else {
-
-		                	$('#address'+address_index+'').val("No results");
-		                	$('#end_place').val("No results");
-		                    // document.getElementById("address"+address_index).value = "No results";
-		                    // document.getElementById("end_place").value = "No results";
-		                    
+		                	$(selecter).val("No results");
+		                	
 		                }
 		            } else {
-		            	address_index++;
-		            	var start_place = address_index-1;
-		            	$('#address'+address_index+'').val(status);
-		            	$('#end_place'+end_place+'').val(status);
+		            	$(selecter).val(status);
+		            	$(selecter).val(status);
 
 		                // document.getElementById("address"+address_index).value = status;
 		                // document.getElementById("end_place"+end_place).value = status;
