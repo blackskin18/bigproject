@@ -6,6 +6,7 @@
     <title>Places Searchbox</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+     <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -173,7 +174,7 @@
 		    	</div>
 		  	</form>
 	  	</div> -->
-	  	<div class="chapter">
+	  	<div class="chapter" id="list-plan">
 	  		<p>----------------------------------------------------------------------------</p>
 	  	</div>
 	  	<div class="bookmarks-list content"></div>
@@ -233,7 +234,6 @@
 						<input id="lat`+address_index+`" type="hidden">
 						<div>
 		    			`).insertAfter('div.chapter p');
-
 				});
 
 		    	var text = document.getElementById("address2").value;
@@ -250,14 +250,19 @@
 		    	}
 
 		    	directions();
-		    	console.table(json);
 		    	// delete one marker wwhen right click
-		    	var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-				markers[index].addListener("rightclick", function() {
+		    	//var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
+				markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("rightclick", function() {
+					// clear all marker
+					//console.log(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}));
+
 					clearMarkers();
-					markers.splice(index,1);
+					var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})+1;
+					markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
 					
-					// if(index == 0){
+					console.log(index)
+					$('#list-plan div:nth-last-of-type('+index+')').remove();
+					// if(index == 0)
 					// 	json.splice(index,1);
 					// 	console.log("đầu");
 					// } else if(index == markers.length) {
@@ -269,19 +274,19 @@
 					// 	json.splice(index,1);
 					// 	console.log("giữa");
 					// }
-					console.table(json);
+
+					// show all marker in markers
 					showMarkers();
 					if(markers.length>0){
 					directions();}
-					index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-				});
-
-
-				markers[index].addListener("dragend",function() {
-					console.log(markers[index].getPosition().lat());
-					markers[index].setPosition = markers.getPosition;
+					// index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
 
 				});
+				//index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
+				// markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("dragend",function() {
+				// 	markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].setPosition = markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].getPosition;
+
+				// });
 			});
 
 			function makeMaker(location) {
@@ -315,22 +320,31 @@
 		            if(status == google.maps.GeocoderStatus.OK) {
 		            	var end_place = address_index-1;
 		                if(results[0]) {
-		                    document.getElementById("address"+address_index).value = results[0].formatted_address;
+		                    $('#address'+address_index+'').val(results[0].formatted_address);
+		                    //document.getElementById("address"+address_index).value = results[0].formatted_address;
 		                    if(markers.length==1){
-		                    	document.getElementById("end_place2").value = results[0].formatted_address;
+		                    	$('#end_place2'+address_index+'').val(results[0].formatted_address);
+		                    	//document.getElementById("end_place2").value = results[0].formatted_address;
 		                    } else {
-								document.getElementById("end_place"+end_place).value = results[0].formatted_address;
+		                    	$('#end_place'+end_place+'').val(results[0].formatted_address);
+								//document.getElementById("end_place"+end_place).value = results[0].formatted_address;
 							}
 		                } else {
-		                    document.getElementById("address"+address_index).value = "No results";
-		                    document.getElementById("end_place").value = "No results";
+
+		                	$('#address'+address_index+'').val("No results");
+		                	$('#end_place').val("No results");
+		                    // document.getElementById("address"+address_index).value = "No results";
+		                    // document.getElementById("end_place").value = "No results";
 		                    
 		                }
 		            } else {
 		            	address_index++;
 		            	var start_place = address_index-1;
-		                document.getElementById("address"+address_index).value = status;
-		                document.getElementById("end_place"+end_place).value = status;
+		            	$('#address'+address_index+'').val(status);
+		            	$('#end_place'+end_place+'').val(status);
+
+		                // document.getElementById("address"+address_index).value = status;
+		                // document.getElementById("end_place"+end_place).value = status;
 		                
 		            }
 		        });
@@ -461,90 +475,6 @@
 		    }
 	  	}
 	// kết thúc
-
-    // =========================
-
-    const bookmarksList = document.querySelector('.bookmarks-list');
-    const bookmarks     = JSON.parse(localStorage.getItem('bookmarks')) || [];
-
-    fillBookmarksList(bookmarks);
-
-    function createBookmark(e) {
-      // e.preventDefault();
-
-      // add a new bookmark to the bookmarks
-      const title    = "asdasd";    
-      const bookmark = {
-        title: title
-      };
-
-      bookmarks.push(bookmark);
-      fillBookmarksList(bookmarks);
-      storeBookmarks(bookmarks);
-
-      console.table(bookmarks);
-      // save that bookmarks list to localStorage
-      // const title        = bookmarkInput.value;      
-      // const bookmark     = document.createElement('a');
-      // bookmark.className = 'bookmark';
-      // bookmark.innerText = title;
-      // bookmark.href      = '#';
-      // bookmark.target    = '_blank';
-      // bookmarksList.appendChild(bookmark);
-    }
-
-    function fillBookmarksList(bookmarks = []) {
-      const bookmarksHtml = bookmarks.map((bookmark, i) => {
-        return `
-				<div id ="plan">
-	    			<br><h6> ------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h6>
-	    			<label for="">time start </label> <input type="datetime-local" > 
-	    			<label for=""> time end </label><input type="datetime-local">
-	    			<label for="">place start</label> <input id="address" type="text">
-	    			<label for="">place end</label> <input id="end_place" type="text">
-					<label for="">vehicle </label> <input type="text" >
-					<label for="">note </label> <input type="text" >
-					<input id="lng" type="hidden">
-					<input id="lat" type="hidden">
-					<span class="glyphicon glyphicon-remove"></span>
-					<div>
-        `;
-      }).join('');     
-
-      bookmarksList.innerHTML = bookmarksHtml;    
-
-      // let bookmarksHtml = '';
-      // for (let i = 0; i < bookmarks.length; i++) {
-      //   bookmarksHtml += `
-      //     <a href="#" class="bookmark">
-      //       ${bookmarks[i].title}
-      //     </a>
-      //   `;
-      // }
-      // console.log(bookmarksHtml);        
-    }
-
-    function removeBookmark(e) {
-      if (!e.target.matches('.glyphicon-remove')) return;
-
-      // find the index
-      // remove from the bookmarks using splice
-      // fill the list
-      // store back to localStorage
-      const index = e.target.parentNode.dataset.id;
-      bookmarks.splice(index, 1);
-      fillBookmarksList(bookmarks);
-      storeBookmarks(bookmarks); 
-    }
-
-    function storeBookmarks(bookmarks = []) {
-      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-    }
-
-    bookmarksList.addEventListener('click', removeBookmark);
-
-
-
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&libraries=places&callback=initAutocomplete"
     async defer></script>
