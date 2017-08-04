@@ -20,4 +20,7 @@ class Trip extends Model
     public function join(){
     	return $this->hasMany('App\Join');
     }
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 }

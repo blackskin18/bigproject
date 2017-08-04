@@ -3,29 +3,34 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-3">
-				<ul class="nav nav-pills nav-stacked" style="top:20px;">
-					<li>
-						<a href="" class="active">
-							User
-						</a>
+				<ul class="nav nav-pills nav-stacked nav-tabs" style="top:20px;">
+					<li >
+						<a href="/user/detail-info/{{Auth::user()->id}}" id="user">
+							<img src="{{Auth::user()->avatar}}" style="width: 200px;">
+						</a><br>
 					</li>
-					<hr>
+					<li >
+						<a data-toggle="tab" href="#detail" >Deatil Trip:</a>
+					</li>
+					<hr style="border-color: red">
 					<li>
-						<a href="">Hot Trip</a>
+						<a data-toggle="tab" href="#hottrip">Hot Trip</a>
 					</li>
 					<li>
-						<a href="">New Trip</a>
+						<a data-toggle="tab" href="#newtrip">New Trip</a>
 					</li>
 					<li>
-						<a href="">All Trip</a>
-					</li>
-					<hr>
-					<li>
-						<a href="">
-							Create Trip
-						</a>
+						<a data-toggle="tab" href="#alltrip">All Trip</a>
 					</li>
 				</ul>
+				<hr style="border-color: red;">
+				<div class="row">
+					<a href="/trip/create" class="col-lg-offset-2"><button class="btn btn-success col-lg-10 col-lg-offset-1">Create Trip</button></a>
+				</div>
+				<br><hr>
+				<div class="row">
+					<a href="/user/detail-info/{{Auth::user()->id}}"><strong>Back</strong></a>
+				</div>
 			</div>
 			<div class="col-lg-9">
 				@yield('content_right')
