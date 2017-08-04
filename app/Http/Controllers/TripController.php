@@ -10,4 +10,10 @@ class TripController extends Controller
     {
     	return view('trip/create');
     }
+
+    public function postTrip(Request $request)
+    {
+    	
+    }
+
 }

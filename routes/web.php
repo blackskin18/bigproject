@@ -20,4 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/trip/create', 'TripController@createTrip');
+
 Route::get('/user/detail-info/{user_id}','UserController@info');
+
+Route::post('/user/create/ok','TripController@postTrip')

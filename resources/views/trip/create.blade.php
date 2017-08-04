@@ -12,8 +12,8 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 400px;
-        width: 400px;
+        height: 600px;
+        width: 600px;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -75,7 +75,7 @@
         margin-left: 12px;
         padding: 0 11px 0 13px;
         text-overflow: ellipsis;
-        width: 400px;
+        width: 600px;
       }
 
       #pac-input:focus {
@@ -99,11 +99,11 @@
     </style>
   	</head>
   	<body>
-  	<div style="width: 50%; float: left;">
+  	<div style="width: 45%; float: left; margin-left: 10px;">
 		<form action="">
 			<div id="form-group" class="">
 				<label for=""> title </label>
-				<input type="text">
+				<input type="text" class="form-control">
 			</div>
 
 			<div id="form-group" class="">
@@ -113,27 +113,27 @@
 
 		 	<div id="form-group" class="">
 				<label for=""> sum member </label>
-				<input type="text">
+				<input type="text" class="form-control">
 			</div>
 
 			<div id="form-group" class="">
 				<label for=""> start place </label>
-				<input type="text" id="start_place">
+				<input type="text" id="start_place" class="form-control">
 			</div>
 
 			<div id="form-group" class="">
 				<label for=""> note </label>
-				<input type="text">
+				<input type="text" class="form-control">
 			</div>
 
-		    <div class="form-group">
+		    <div class="form-group" style="margin-top: 20px; margin-left: 10px;">
 		    	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 		    	<div id="map"></div>
 		    </div>
 
 			<div id="form-group" class="">
 				<label for=""> lag </label>
-				<input type="text" id="lat">
+				<input type="text" id="lat" class="form-control">
 			</div>
 
 			<div id="form-group" class="">
@@ -145,37 +145,12 @@
 				<label for=""> lng </label>
 				<input type="text" id="">
 			</div>
-			
-			<button> save </button>
 	  	</form>
 	</div>
 	<div style="width: 50%; height: 700px; float: left;">
 
-<!-- 		<div class="floater content">
-		  	<form class="bookmark-form">
-		    	<div class="floater-top form-group">
-		    		<label for="">time start</label>
-		      		<input type="datetime-local" class="form-control" id="text1">
-		    	</div>
-		    	<div class="floater-top form-group">
-		    		<label for="">time end</label>
-		      		<input type="datetime-local" class="form-control" id="text2">
-		    	</div>
-		    	<div class="floater-top form-group">
-		    	<label for=""> note</label>
-		      		<input type="text" class="form-control"  id="text3">
-		    	</div>
-		    	<div class="floater-top form-group">
-		    		<label for=""></label>
-		      		<input type="text" class="form-control"  id="text4">
-		    	</div>
-		    	<div class="floater-bottom">
-		      		<button type="submit" class="btn btn-primary btn-sm">Add</button>
-		    	</div>
-		  	</form>
-	  	</div> -->
 	  	<div class="chapter" id="list-plan">
-	  		<p>----------------------------------------------------------------------------</p>
+	  		<p></p>
 	  	</div>
 		<div>
 <!-- 			<input onclick="clearMarkers();" type=button value="Hide Markers">
@@ -183,6 +158,8 @@
 		    <input onclick="deleteMarkers();" type=button value="Delete Markers">
 			<input onclick="directions()" type="button" value="display route">
 			<input type="button" onclick="hiddenRoute()" value="hidden route"> -->
+			<input type="text" id="input_json">
+			<input onclick="addJson()" type="button" value="display route">
 		</div>
 	</div>
 
@@ -215,76 +192,89 @@
 	      	geocoder = new google.maps.Geocoder();
 
 			google.maps.event.addListener(map, 'click', function(event) {
-				address_index++;
-				var start_place = address_index-1;
-		    	//pushMarker(event.latLng);
-		    	// createBookmark();
 		    	$(document).ready(function() {
+		    		$(`<div style="border: 1px solid blue; padding:10px; margin: 10px;">	
+		    			
+		    			<label for="">place start</label> <input  class="form-control" type="text" disabled>
+		    			<label for="">place end</label> <input class="form-control" type="text" disabled>
+		    			<label for="">time start </label> <input type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;" > 
+		    			<label for=""> time end </label><input  type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;">
+		    			<br>
+						<label for="">vehicle </label> <input type="text" style="width: 230px; border-radius:3px; padding: 4px; margin-left: 23px;" >
+						<label for="" style="margin-left:10px;">note </label> <input type="text" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
+						<input type="text" disabled >
+						<input type="text" disabled>
 
-		    		$(`<div id ="plan`+address_index+`">
-		    			<br><h6> ------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h6>
-		    			<label for="">time start </label> <input type="datetime-local" > 
-		    			<label for=""> time end </label><input type="datetime-local">
-		    			<label for="">place start</label> <input id="address`+address_index+`" type="text">
-		    			<label for="">place end</label> <input id="end_place`+address_index+`" type="text">
-						<label for="">vehicle </label> <input type="text" >
-						<label for="">note </label> <input type="text" >
-						<input id="lat`+address_index+`" type="text">
-						<input id="lng`+address_index+`" type="text">
 						<div>
 		    			`).insertAfter('div.chapter p');
 				});
-		    	getAddress(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(6)');
 
 		    	makeMaker(event.latLng);
 		    	markers.push(marker);
-		    	//placeMarker(event.latLng);
-		    	if(markers.length > 1){
-		    		json.push({ "location1": [markers[markers.length-2].getPosition().lat(), markers[markers.length-2].getPosition().lng()],
-	    						"location2": [markers[markers.length-1].getPosition().lat(), markers[markers.length-1].getPosition().lng()]});
+		    	placeMarker(event.latLng);
+
+		    	// set name address when make a marker
+		    	getAddress(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(8)');
+		    	getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+		    	if(markers.length > 0){
+		    		getAddress(event.latLng,'#list-plan div:nth-of-type(2) input:nth-last-of-type(7)');
+		    	} else {
+
 		    	}
 
+		    	// set location for start place
+		    	placeMarker(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(2)', '#list-plan div:first-of-type input:nth-last-of-type(1)');
+
+		    	// if(markers.length > 1){
+		    	// 	json.push({ "location1": [markers[markers.length-2].getPosition().lat(), markers[markers.length-2].getPosition().lng()],
+	    		// 				"location2": [markers[markers.length-1].getPosition().lat(), markers[markers.length-1].getPosition().lng()]});
+		    	// }
+
 		    	directions();
-		    	// delete one marker wwhen right click
-		    	//var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng});
-		    	var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
+		    	
+		    	//remove a marker
+		    	//var index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
 				markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("rightclick", function(event) {
 					// clear all marker
 					clearMarkers();
 					// delete maker when click;
-					
-					console.log(index);
 					var a =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
-					$('#list-plan div:nth-last-of-type('+a+')').remove();
-					markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
-					
-					// remove input plan;
-					
-					// if(index == 0)
-					// 	json.splice(index,1);
-					// 	console.log("đầu");
-					// } else if(index == markers.length) {
-					// 	json.splice(index-1,1);
-					// 	console.log("cuối");
-					// } else {
-					// 	json[index-1].location2[0] = json[index].location2[0];
-					// 	json[index-1].location2[1] = json[index].location2[1];
-					// 	json.splice(index,1);
-					// 	console.log("giữa");
-					// }
+					var a_up_1 = a+1;
+					var a_down_1 = a-1;
 
-					// show all marker in markers
+					console.log("a" +a);
+					// edit start name of last plan end remove plan when right click
+					console.log("delete:" + $('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
+					$('#list-plan div:nth-last-of-type('+a_down_1+') input:nth-last-of-type(7)').val($('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
+					$('#list-plan div:nth-last-of-type('+a+')').remove();
+
+					// remove marker
+					markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
+
+					//show all marker
 					showMarkers();
+					if(markers.length > 0){
+						getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+					}
 					if(markers.length>0){
-					directions();}
-					// index = markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})+1;
+						directions();
+					}
 				});
-				markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("dragend", function(e) {
-					console.log(index);
-					getAddress(e.latLng,'#list-plan div:nth-last-of-type('+index+') input:nth-last-of-type(6)');
-					$('#list-plan div:nth-last-of-type('+index+') input:nth-last-of-type(2)').val(e.latLng.lat());
-					$('#list-plan div:nth-last-of-type('+index+') input:nth-last-of-type(1)').val(e.latLng.lng());
-					console.log(e.latLng.lat());
+
+				markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("dragend", function(event) {
+					// index of <div> in #list plan
+					var b =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
+					var b_down_1 = b-1;
+					getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(8)');
+					getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b_down_1+') input:nth-last-of-type(7)')
+					if(markers.length > 0){
+						getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+					}
+					$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(2)').val(event.latLng.lat());
+					$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(1)').val(event.latLng.lng());
+
+					
+					console.log(event.latLng.lat());
 					directions();
 				});
 			});
@@ -299,24 +289,16 @@
 					marker = xmarker;
 			}
 
-	    	function placeMarker(location) {
-		        document.getElementById("lat"+address_index).value=location.lat();
-		        document.getElementById("lng"+address_index).value=location.lng();
-
-		        google.maps.event.addListener(marker,'dragend', function(){
-		    		var lat = marker.getPosition().lat();
-		    		var lng = marker.getPosition().lng();
-
-		    		$("#lat"+address_index).val(lat);
-		    		$("#lng"+address_index).val(lng);
-		    		directions();
-		    	});
-		        getAddress(location);
+	    	function placeMarker(location, selecter_lat, selecter_lng) {
+	    		$(selecter_lat).val(location.lat());
+	    		$(selecter_lng).val(location.lng());
     		}
 
 		    function getAddress(latLng,selecter) {
 		        geocoder.geocode( {'latLng': latLng},
+
 		        function(results, status) {
+		        		
 		            if(status == google.maps.GeocoderStatus.OK) {
 		            	// console.log(google.maps.GeocoderStatus.OK);
 		                if(results[0]) {
@@ -325,6 +307,9 @@
 		                	$(selecter).val("No results");
 		                	
 		                }
+		            } else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) { 
+       				 	wait = true;
+        				setTimeout("wait = true", 20000);
 		            } else {
 		            	$(selecter).val(status);
 		            	$(selecter).val(status);
@@ -459,6 +444,52 @@
 		    } else {
 		      marker.setAnimation(google.maps.Animation.BOUNCE);
 		    }
+	  	}
+
+	  	function addJson() {
+	  		var sum_element = $('#list-plan div').size()/2;
+	  		console.log(sum_element);
+
+	  		for(var i = 1; i <=markers.length; i++){
+	  			var place_start_lng = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(1)').val();
+	  			var place_start_lat = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(2)').val();
+	  			var note = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(3)').val();
+	  			var vehicle = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(4)').val();
+	  			var time_end = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(5)').val();
+	  			var time_start = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(6)').val();
+	  			console.log(place_start_lat);
+	  			json.push({
+	  				"place_start_lat": place_start_lng,
+	  				"place_start_lng": place_start_lat,
+	  				"note": note,
+	  				"vehicle": vehicle,
+	  				"time_end": time_end,
+	  				"time_start": time_start,
+	  			});
+	  		}
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            //         'accepts': 'application/json',
+            //     }
+            // });
+
+            // $.ajax({
+            //     	url: 'ok',
+            //         type: "post",
+            //         datatType: "json",
+                    
+            //         data: json,
+            //         success: function(){
+            //          	alert("ádasd");
+            //         },
+            //         error: function() {
+            //          	alert("error");
+            //         }
+            // });
+ 			               
+
+	  		console.log(json);
 	  	}
 	// kết thúc
     </script>
