@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/trip/create', 'TripController@createTrip');
+<<<<<<< HEAD
 Route::get('/user/detail-info/{id}','UserController@info')->name('info');
 Route::get('/user/edit/{id}','UserController@edit');
 Route::post('/user/edit/{id}','UserController@postedit');
@@ -42,3 +43,9 @@ Route::get('/trip/delete/{id}','TripController@delete');
 //         $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 //         $this->post('password/reset', 'Auth\PasswordController@reset');
 // }
+=======
+
+Route::get('/user/detail-info/{user_id}','UserController@info');
+
+Route::post('/user/create/ok','TripController@postTrip')
+>>>>>>> 4a9e790a82264abeb28ecafba556f0d473310c75
