@@ -13,7 +13,7 @@ class TripController extends Controller
 
     public function postTrip(Request $request)
     {
-    	
+    	dd($request->all());
     }
 
 }

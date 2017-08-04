@@ -3,6 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Places Searchbox</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -467,27 +468,30 @@
 	  				"time_start": time_start,
 	  			});
 	  		}
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            //         'accepts': 'application/json',
-            //     }
-            // });
 
-            // $.ajax({
-            //     	url: 'ok',
-            //         type: "post",
-            //         datatType: "json",
-                    
-            //         data: json,
-            //         success: function(){
-            //          	alert("ádasd");
-            //         },
-            //         error: function() {
-            //          	alert("error");
-            //         }
-            // });
- 			               
+	  		var url = window.location.origin + '/bigproject/public' + '/user/create/ok';
+	  		console.log(json)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    // 'accepts': 'application/json',
+                }
+            });
+
+            $.ajax({
+                	url: url,
+                    type: "post",
+                    // datatType: "json",
+                    data: {
+                    	json
+                    },
+                    success: function(data){
+                     	alert("ok");
+                    },
+                    error: function() {
+                     	alert("error");
+                    }
+            });
 
 	  		console.log(json);
 	  	}
