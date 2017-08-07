@@ -13,7 +13,6 @@ class TripController extends Controller
     {
     	return view('trip/create');
     }
-<<<<<<< HEAD
     public function detail($trip_id){
     	$tripall=Trip::all();
     	$user=User::find(Auth::User()->id);
@@ -30,12 +29,9 @@ class TripController extends Controller
     	$plans->delete();
     	return redirect('/user/detail-info/{{$user->id}}');
     }
-=======
 
     public function postTrip(Request $request)
     {
     	
     }
-
->>>>>>> 4a9e790a82264abeb28ecafba556f0d473310c75
 }
