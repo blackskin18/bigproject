@@ -6,7 +6,12 @@
 				<ul class="nav nav-pills nav-stacked nav-tabs" style="top:20px;">
 					<li >
 						<a href="/user/detail-info/{{Auth::user()->id}}" id="user">
-							<img src="{{Auth::user()->avatar}}" style="width: 200px;">
+							<div>
+								<img src="{{Auth::user()->avatar}}" style="width: 200px;">
+								<div>
+									
+								</div>
+							</div>
 						</a><br>
 					</li>
 					<li >
@@ -20,7 +25,7 @@
 						<a data-toggle="tab" href="#newtrip">New Trip</a>
 					</li>
 					<li>
-						<a data-toggle="tab" href="#alltrip">All Trip</a>
+						<a  href="/trip/all">All Trip</a>
 					</li>
 				</ul>
 				<hr style="border-color: red;">
