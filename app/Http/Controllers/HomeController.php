@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Trip;
 class HomeController extends Controller
 {
     /**
@@ -22,7 +22,8 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('home');
+    {   
+        $tripall=Trip::all();
+        return view('trip.alltrip')->with('tripall',$tripall);
     }
 }

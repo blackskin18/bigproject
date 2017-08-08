@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Join;
 use App\comment;
 use App\Follow;
+use App\Trip;
 
 class User extends Authenticatable
 {
@@ -38,5 +39,8 @@ class User extends Authenticatable
     }
     public function follow(){
         return $this->hasMany('App\Follow');
+    }
+    public function trip(){
+        return $this->hasMany('App\Trip');
     }
 }

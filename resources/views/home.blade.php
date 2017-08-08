@@ -15,4 +15,5 @@
         </div>
     </div>
 </div>
+<!-- <a href="url('user/info-detail/{user_id}')">User</a> -->
 @endsection
