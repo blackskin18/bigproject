@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-	<div class="container">
+	<div class="container" style="margin-left: 0px; text-align: center;">
 		<div class="row">
 			<div class="col-lg-3">
 				<ul class="nav nav-pills nav-stacked" style="top:20px;">
