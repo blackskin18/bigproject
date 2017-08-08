@@ -83,7 +83,7 @@
 							<h3><strong style="margin-right: 50px;">Note:</strong>{{$trip->title}}.Số thành viên tham gia:{{$trip->sum_member}}</h4></h3>To {{$trip->start_date}} From {{$trip->end_date}}
 								<img src="{{$trip->cover}}" alt="cover" title="Cover" style="height: 250px;width: 450px; " class="img-responsive col-lg-10">
 
-								<a href="/trip/detail/{{$trip->id}}" class="col-lg-2" style="top:20%;"><button class="btn btn-danger" >Read More...</button></a>
+								<a href="/trip/detail/{{$trip->id}}" class="col-lg-2" style="top:20%;"><button class="btn btn-danger" >Detail...</button></a>
 								<a href="/trip/delete/{{$trip->id}}"  style="margin-left: 20px;"><button class="btn btn-warning">Delete</button>  </a>
 							</div>
 						@endforeach
@@ -100,6 +100,7 @@
 							<h3>{{$join->trip->name}}</h3>
 							<h3>{{$join->trip->title}}:To{{$join->trip->start_date}} From {{$join->trip->end_date}}</h3>
 							<div> 
+								
 								<img src="{{$join->trip->cover}}" alt="Cover" title="cover" style="height: 250px;width: 450px;>
 							</div>
 						</div>
@@ -107,21 +108,27 @@
 				</div>
 				<hr style="border-color: red;">
 				<br>
-				<div id="tripfollow">
+				<div id="tripfollow" class="col-lg-12" style="margin-bottom: 50px;">
 					<div class="row form-group">
 						<h3>
-							*Trip Follow
+							<strong>Trip Follow</strong>
 						</h3>
 					</div>
+					<div class="row">
 					@foreach($user->follow as $follow)
-						<div class="row">
-							<h3><strong>Note:{{$follow->trip->name}}</strong></h3>
-							<h3>{{$follow->trip->title}}:To {{$follow->trip->start_date}} From {{$follow->trip->end_date}}</h3>
-							<div>
-								<img src="{{$follow->trip->cover}}" alt="Cover" title="Cover" style="height: 250px;width: 450px;>
-							</div>
+						<div class="col-lg-8">
+								<h4 >Note:<strong>{{$follow->trip->title}}</strong></h4>
+								<h4>To {{$follow->trip->start_date}} From {{$follow->trip->end_date}}</h4>
+								<div>
+									<img src="{{$follow->trip->cover}}" alt="Cover" title="Cover" style="height: 250px;width: 450px;">
+								</div>
 						</div>
+						<div style="margin-top: 70px;" class="col-lg-4" >
+								<a href="/trip/detail/{{$follow->trip_id}}"><button class="btn btn-success btn-md col-lg-8">Detail</button></a>
+						</div>
+						<br>
 					@endforeach
+					</div>
 				</div>
 		</div>
 	</div>

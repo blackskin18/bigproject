@@ -8,14 +8,11 @@
 						<a href="/user/detail-info/{{Auth::user()->id}}" id="user">
 							<div>
 								<img src="{{Auth::user()->avatar}}" style="width: 200px;">
-								<div>
-									
+								<div class="col-lg-offset-2">
+									<a href="/user/edit/{{Auth::user()->id}}">Edit Profile</a>
 								</div>
 							</div>
 						</a><br>
-					</li>
-					<li >
-						<a data-toggle="tab" href="#detail" >Deatil Trip:</a>
 					</li>
 					<hr style="border-color: red">
 					<li>
@@ -24,8 +21,8 @@
 					<li>
 						<a data-toggle="tab" href="#newtrip">New Trip</a>
 					</li>
-					<li>
-						<a  href="/trip/all">All Trip</a>
+					<li >
+						<a  data-toggle="tab" href="#alltrip" >All Trip</a>
 					</li>
 				</ul>
 				<hr style="border-color: red;">

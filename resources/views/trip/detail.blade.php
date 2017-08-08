@@ -8,8 +8,8 @@
 	<div class="tab-content">
 		<div class="tab-pane fade in active" id="detail" >
 			<div class="row">
-				@if(Auth::user()->id==$trip->user_id)
-							<!-- <a href=""><button class="btn btn-success">Detail</button></a> -->
+				@if(Auth::User()->id==$trip->user_id)
+					return ;
 						@else
 							<?php  
 								$follow=0;
@@ -26,7 +26,7 @@
 							 	 @endif
 							@endforeach
 				<div class="col-lg-6 col-lg-offset-6">
-					<div class="col-lg-offset-6 col-lg-3">
+					<div class="col-lg-offset-4 col-lg-3">
 								@if($follow==1) <button  value="1" class="btn btn-success follow" >Unfollow</button>
 								@else <button  value="0" class="btn btn-success follow" >Follow</button>
 								@endif
@@ -34,12 +34,41 @@
 								<input type="hidden" id="user_id" name="user_id" value="{{Auth::User()->id}}">
 
 					</div>
+						@endif 	
+				</div>		
+			<div>
+				@if($joins==-1)
 					<div class="col-lg-3 ">
-						<a href=""><button class="btn btn-warning">Join</button></a>
+						<button class="btn btn-warning join"  value="-1">Join</button>
+							<div class="modal fade" id="myModal" role="dialog">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Join</h4>	
+										</div>
+										<div class="modal-body" style="height: 135px;">
+											<h5>Lý do bạn muốn tham gia:</h5>
+											<textarea rows="3" class="col-lg-8 form-control" name="message" id="message"></textarea>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal" id="request">OK</button>
+										</div>
+									</div>
+								</div>
+							</div>
 					</div>
-				</div>
-						@endif 
+				@elseif($joins==1)
+					<div class="col-lg-3">
+						<button class="btn btn-warning join" value="1">Out</button>
+					</div>
+				@elseif($joins==0)
+						<div class="col-lg-3">
+							<button class="btn btn-warning join" value="0">Cancel Request</button>
+						</div>
+				@endif	
 			</div>
+		</div>
 			<div class="row">
 				<h3>
 					<strong>*Chi tiết chuyến đi:{{$trip->title}}</strong>

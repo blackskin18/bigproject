@@ -29,6 +29,10 @@ Route::get('/trip/delete/{id}','TripController@delete');
 Route::get('/trip/all','TripController@alltrip');
 Route::post('/trip/follow','TripController@follow');
 Route::post('/trip/unfollow','TripController@unfollow');
+Route::post('/trip/detail/{trip_id}','TripController@messeage');
+Route::post('/trip/cancelrequest','UserController@cancelrequest');
+Route::post('/trip/out','UserController@out');
+Route::post('/trip/join','UserController@join');
 // public function auth()
 //     {
 //         // Authentication Routes...

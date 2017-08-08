@@ -7,7 +7,8 @@ use App\Trip;
 use App\Plan;
 use App\User;
 use App\Follow;
-use Illuminate\Support\Facades\Auth;
+use App\Join;
+use Illuminate\Support\Facades\Auth;    
 class TripController extends Controller
 {
     public function createTrip()
@@ -19,19 +20,20 @@ class TripController extends Controller
     	$tripall=Trip::all();
     	$user=User::find(Auth::User()->id);
     	$trip=Trip::find($trip_id);
-    	return view('trip.detail',['trip'=>$trip,'tripall'=>$tripall,'user'=>$user]);
+        $find_users=Join::where('user_id',Auth::User()->id )->where('trip_id',$trip_id)->get();
+            if($find_users->count()){
+                foreach($find_users as $find_user){
+                    if($find_user->status==0){
+                        $joins=0;
+                    }else{
+                        $joins=1;
+                    }
+                }
+            }else{
+                $joins=-1;
+            }
+    	return view('trip.detail',['trip'=>$trip,'tripall'=>$tripall,'user'=>$user,'joins'=>$joins]);
     }
-    // public function postdetail(Request $request,$trip_id){
-    //     if($request->follow=="Unfollow"){
-    //         $follow=new Follow;
-    //         $follow->user_id=Auth::User()->id;
-    //         $follow->trip_id=$trip_id;
-    //         $follow->save();
-    //     }else{
-    //         $follow=Follow::find($trip_id)->delete();
-    //     }
-    //     return redirect('/trip/detail/{trip_id}');
-    // }
     public function delete($id){
     	$trip=Trip::findOrFail($id);
         
@@ -58,6 +60,9 @@ class TripController extends Controller
         $follow=Follow::where('user_id',Auth::User()->id)->where('trip_id',$request->trip_id);
         $follow->delete();
         return 1;
+    }
+    public function message(Request $request){
+
     }
 
 

@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('content')
+@extends('layouts.index')
+@section('content_right')
 			<div class="container" id="alltrip">
 			<div class="row">
 				<h3><strong>* Tất cả các chuyến đi: </strong></h3>
@@ -16,19 +16,6 @@
 						<strong>Ngày kết thúc dự kiến:</strong>{{$trip->end_date}}<br>
 						<br>
 						<a href="/trip/detail/{{$trip->id}}"><button class="btn btn-success">Detail</button></a>
-					</div>
-					<div class="col-lg-5 col-lg-offset-1">
-						<div class="row">
-							<strong>*Các chặng dừng chân:</strong>
-						</div>
-						<div>
-							@foreach($trip->plan as $plan)
-								<div>
-									<span>+){{$plan->place_start}}.</span>
-										<p>Hoạt động nổi bật:{{$plan->active}}</p>
-								</div>
-							@endforeach
-						</div>
 					</div>
 				</div><br><hr>
 			@endforeach
