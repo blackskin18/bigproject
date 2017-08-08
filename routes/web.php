@@ -24,3 +24,7 @@ Route::get('/trip/create', 'TripController@createTrip');
 Route::get('/user/detail-info/{user_id}','UserController@info');
 
 Route::post('/user/create/ok','TripController@postTrip');
+
+Route::post('/user/create/{trip_id}','TripController@postTripCover');
+
+Route::get('/trip/detail-trip/{trip_id}','TripController@detailTrip');

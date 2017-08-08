@@ -18,10 +18,10 @@ class CreatePlansTable extends Migration
             $table->integer('trip_id');
             $table->string('verhicle');
             $table->string('active');
-            $table->float('place_start_lat');
-            $table->float('place_start_lng');
-            $table->float('place_end_lat');
-            $table->float('place_end_lng');
+            $table->float('place_start_lat', 10, 6);
+            $table->float('place_start_lng', 10, 6);
+            $table->datetime('time_start');
+            $table->datetime('time_end');
             $table->timestamps();
         });
     }
