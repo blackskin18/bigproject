@@ -27,6 +27,13 @@ Route::post('/user/edit/{id}','UserController@postedit');
 Route::get('/trip/detail/{trip_id}','TripController@detail');
 Route::post('/trip/detail/{trip_id}','TripController@postdetail');
 Route::get('/trip/delete/{id}','TripController@delete');
+Route::get('/trip/all','TripController@alltrip');
+Route::post('/trip/follow','TripController@follow');
+Route::post('/trip/unfollow','TripController@unfollow');
+Route::post('/trip/detail/{trip_id}','TripController@messeage');
+Route::post('/trip/cancelrequest','UserController@cancelrequest');
+Route::post('/trip/out','UserController@out');
+Route::post('/trip/join','UserController@join');
 // public function auth()
 //     {
 //         // Authentication Routes...
@@ -43,8 +50,6 @@ Route::get('/trip/delete/{id}','TripController@delete');
 //         $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 //         $this->post('password/reset', 'Auth\PasswordController@reset');
 // }
-
-
 Route::get('/user/detail-info/{user_id}','UserController@info');
 
 Route::post('/user/create/ok','TripController@postTrip');
