@@ -54,4 +54,21 @@ class UserController extends Controller
             return redirect('user/detail-info/{id}');
     	}
     }
+    public function cancelrequest(Request $request){
+        Join::where('user_id',Auth::User()->id)->where('trip_id',$request->trip_id)->delete();
+        return 1;
+    }
+    public function out(Request $request){
+        Join::where('user_id',Auth::User()->id)->where('trip_id',$request->trip_id)->delete();
+        return 1;
+    }
+    public function join(Request $request){
+        $join=new Join;
+        $join->user_id=$request->user_id;
+        $join->trip_id=$request->trip_id;
+        $join->message=$request->message;
+        $join->status=0;
+        $join->save();
+        return $join;
+    }
 }
