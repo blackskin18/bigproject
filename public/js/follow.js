@@ -38,7 +38,6 @@ $('.follow').click(function(){
 	// console.log('sjdhfsf');
 	// }
 });
-});
 // join trip
 $('.join').click(function(){
 	var data={
