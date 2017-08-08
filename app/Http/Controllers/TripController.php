@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Redirect;
-use App\Plan;
 use App\Trip;
 use Illuminate\Support\Facades\Auth;
-use App\Trip;
 use App\Plan;
 use App\User;
 use App\Follow;
