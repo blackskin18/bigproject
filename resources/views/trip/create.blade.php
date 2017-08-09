@@ -44,18 +44,6 @@
 			<label for=""> status </label>
 			<input type="text" class="form-control" id="trip_note">
 		</div>
-
-<!-- 		<form class="form-inline" accept-charset="utf-8">
-			<div class="form-group" >
-				<label for=""> start date </label>
-				<input type="date" class="form-control" id="trip_start_date" placeholder="start date">
-			</div>
-			<div class="form-group">
-				<label for=""> end date </label>
-				<input type="date" class="form-control" placeholder="end date" id="trip_end_date">
-			</div>
-		</form> -->
-
 	    <div class="form-group" style="margin-top: 20px; margin-left: 10px;">
 	    	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 	    	<div id="map"></div>
@@ -70,12 +58,6 @@
 	  		<p></p>
 	  	</div>
 		<div>
-<!-- 			<input onclick="clearMarkers();" type=button value="Hide Markers">
-		    <input onclick="showMarkers();" type=button value="Show All Markers">
-		    <input onclick="deleteMarkers();" type=button value="Delete Markers">
-			<input onclick="directions()" type="button" value="display route">
-			<input type="button" onclick="hiddenRoute()" value="hidden route"> -->
-			
 		</div>
 	</div>
 

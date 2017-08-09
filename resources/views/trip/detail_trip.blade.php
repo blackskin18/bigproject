@@ -119,7 +119,16 @@
 		<form action="#map">
 	    	<input type="submit" value="show map" class="btn btn-primary btn-md" />
 		</form>
-
+<!-- 		<form >
+			<input type="button" name="" value="">
+		</form> -->
+		<form action="#follow">
+				@if($follow==1) <button  value="1" class="btn btn-success follow" >Unfollow</button>
+				@else <button  value="0" class="btn btn-success follow" >Follow</button>
+				@endif
+					<input type="hidden" name="trip_id" value="{{$trip->id}}" id="trip_id">
+					<input type="hidden" id="user_id" name="user_id" value="{{Auth::User()->id}}">
+		</form>
 	</div>
 	<div class="comment">
 		
@@ -185,4 +194,7 @@
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&libraries=places&callback=initAutocomplete"
     async defer></script>
+@endsection
+@section('script')
+	<script type="text/javascript" src="{{(asset('js/follow.js'))}}"></script>
 @endsection

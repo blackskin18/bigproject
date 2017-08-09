@@ -7,9 +7,9 @@
 					<li >
 						<a href="/user/detail-info/{{Auth::user()->id}}" id="user">
 							<div>
-								<img src="{{Auth::user()->avatar}}" style="width: 200px;">
+								<img src="{{Auth::User()->avatar}}" style="width: 200px;">
 								<div class="col-lg-offset-2">
-									<a href="/user/edit/{{Auth::user()->id}}">Edit Profile</a>
+									<a href="/user/edit/{{Auth::User()->id}}">Edit Profile</a>
 								</div>
 							</div>
 						</a><br>
@@ -27,7 +27,7 @@
 				</ul>
 				<hr style="border-color: red;">
 				<div class="row">
-					<a href="/trip/create" class="col-lg-offset-2"><button class="btn btn-success col-lg-10 col-lg-offset-1">Create Trip</button></a>
+					<a href="trip/create" class="col-lg-offset-2"><button class="btn btn-success col-lg-10 col-lg-offset-1">Create Trip</button></a>
 				</div>
 				<br><hr>
 				<div class="row">

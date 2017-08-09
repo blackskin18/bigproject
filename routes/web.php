@@ -29,6 +29,11 @@ Route::get('/trip/delete/{id}','TripController@delete');
 Route::get('/trip/all','TripController@alltrip');
 Route::post('/trip/follow','TripController@follow');
 Route::post('/trip/unfollow','TripController@unfollow');
+Route::post('/user/create/ok','TripController@postTrip');
+
+Route::post('/user/create/{trip_id}','TripController@postTripCover');
+
+Route::get('/trip/detail-trip/{trip_id}','TripController@detailTrip');
 // public function auth()
 //     {
 //         // Authentication Routes...
@@ -48,9 +53,5 @@ Route::post('/trip/unfollow','TripController@unfollow');
 
 // Route::get('/user/detail-info/{user_id}','UserController@info');
 
-Route::post('/user/create/ok','TripController@postTrip');
 
-Route::post('/user/create/{trip_id}','TripController@postTripCover');
-
-Route::get('/trip/detail-trip/{trip_id}','TripController@detailTrip');
 
