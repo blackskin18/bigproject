@@ -52,7 +52,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{url('user/detail-info/{id}')}}">Profile</a>
+                                        <a href="http://localhost/bigproject/public/user/detail-info/{{Auth::user()->id}}">Profile</a>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

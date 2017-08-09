@@ -96,6 +96,7 @@ class TripController extends Controller
 		$trip->save();
     }
 
+
     function detailTrip($trip_id) {
     	$trip = Trip::find($trip_id);
     	$plans = Plan::where('trip_id',$trip_id)->orderBy('id','desc')->get();
@@ -125,24 +126,6 @@ class TripController extends Controller
             }
     	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans)->with('joins',$joins)->with('follow',$follow);
     }
-    // public function detail($trip_id){
-    //     $tripall=Trip::all();
-    //     $user=User::find(Auth::User()->id);
-    //     $trip=Trip::find($trip_id);
-    //     $find_users=Join::where('user_id',Auth::User()->id )->where('trip_id',$trip_id)->get();
-    //         if($find_users->count()){
-    //             foreach($find_users as $find_user){
-    //                 if($find_user->status==0){
-    //                     $joins=0;
-    //                 }else{
-    //                     $joins=1;
-    //                 }
-    //             }
-    //         }else{
-    //             $joins=-1;
-    //         }
-    //     return view('trip.detail',['trip'=>$trip,'tripall'=>$tripall,'user'=>$user,'joins'=>$joins]);
-    // }
     public function alltrip(){
         $tripall=Trip::all();
         return view('trip.alltrip')->with('tripall',$tripall);

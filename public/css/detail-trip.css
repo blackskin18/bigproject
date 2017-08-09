@@ -1,0 +1,58 @@
+
+div#content-map{
+	width: 1150px;
+	height: 500px;
+}
+
+div#map{
+	width: 1150px; height: 500px
+}
+
+div#plan_list{
+	text-align: left;
+}
+
+div#status div:nth-child(1){
+	width:50px; float: left; margin-right: 30px;
+}
+
+div#status div:nth-child(2){
+	width: 1000px;float:left; text-align: left;
+}
+div#info-trip{
+	position: relative;
+}
+
+div#button{
+	width: 100px;
+	height: 100px;
+	position: fixed;
+	float: right;
+	z-index: 9999;
+	right: 0px;
+	top: 70px;
+}
+div.plan{
+	width: 1150px; height: 100px;
+}
+
+div.stt{
+	float: left;
+	width: 20px;
+}
+
+div.from-to{
+	width: 500px;
+	height: 100px;
+	float: left;
+}
+
+div.time{
+	height: 100px;
+	float: left;
+}
+
+div.vehicle{
+	float: left; width: 200px;
+	margin-left: 50px;
+} 

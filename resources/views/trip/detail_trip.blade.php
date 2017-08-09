@@ -2,11 +2,11 @@
 	<?php
 		$link_img = asset($trip->cover);
 	?>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
     <script src="{{ asset('js/create_trip.js') }}"></script>
 	<style type="text/css" media="screen">
 
@@ -17,32 +17,9 @@
 			background-size: cover;
 			border-radius: 10px;
 		}
-		
-		div#plan_list{
-			text-align: left;
-		}
 
-		div#status div:nth-child(1){
-			width:50px; float: left; margin-right: 30px;
-		}
 
-		div#status div:nth-child(2){
-			width: 1000px;float:left; text-align: left;
-		}
-		div#info-trip{
-			position: relative;
-		}
 		
-		div#button{
-			width: 100px;
-			height: 100px;
-			position: fixed;
-			float: right;
-			z-index: 9999;
-			left: 1400px;
-			top: 70px;
-			
-		}
 
 	</style>
 
@@ -65,17 +42,17 @@
 
 		<div id="plan_list" >
 			@foreach($plans as $key => $plan)
-			<div style="width: 1150px; height: 100px">
-				<div style="float: left; width: 20px;">
+			<div class="plan">
+				<div class = "stt">
 					{{$key+1}}
 				</div>
-				<div style=" width: 500px;height: 100px; float: left;">
+				<div class="from-to" >
 					<b> from: {{$plan->start_place}} <br>  to: {{$plan->end_place}}<b>
 				</div>
-				<div style="height: 100px; float: left;">
+				<div class="time" >
 					<b> time_start: {{$plan->time_start}} <br> time end: {{$plan->time_end}} </b>
 				</div>
-				<div style="float: left; width: 200px; margin-left: 50px;">
+				<div class="vehicle">
 					<b> vehicle: {{$plan->verhicle}} <br> active: {{$plan->active}} <b>
 				</div>
 			</div>
@@ -91,7 +68,7 @@
 			</div>
 		</div>
 
-		<div id="content-map" style="width: 1150px; height: 500px">
+		<div id="content-map" >
 			<div id="location-input">
 				@foreach($plans as $key => $plan)
 					<div>
@@ -100,7 +77,7 @@
 					</div>
 				@endforeach
 			</div>
-			<div id="map" style="width: 1150px; height: 500px">
+			<div id="map" >
 				
 			</div>
 		</div>
