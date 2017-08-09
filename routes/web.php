@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
@@ -28,25 +26,8 @@ Route::post('/trip/detail/{trip_id}','TripController@postdetail');
 Route::get('/trip/delete/{id}','TripController@delete');
 Route::get('/trip/all','TripController@alltrip');
 Route::post('/trip/follow','TripController@follow');
+
 Route::post('/trip/unfollow','TripController@unfollow');
-// public function auth()
-//     {
-//         // Authentication Routes...
-//         $this->get('login', 'Auth\AuthController@showLoginForm');
-//         $this->post('login', 'Auth\AuthController@login');
-//         $this->get('logout', 'Auth\AuthController@logout');
-
-//         // Registration Routes...
-//         $this->get('register', 'Auth\AuthController@showRegistrationForm');
-//         $this->post('register', 'Auth\AuthController@register');
-
-//         // Password Reset Routes...
-//         $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-//         $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-//         $this->post('password/reset', 'Auth\PasswordController@reset');
-// }
-
-// Route::get('/user/detail-info/{user_id}','UserController@info');
 
 Route::post('/user/create/ok','TripController@postTrip');
 

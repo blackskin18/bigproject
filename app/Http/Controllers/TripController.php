@@ -95,12 +95,15 @@ class TripController extends Controller
 		$trip->save();
     }
 
+
     function detailTrip($trip_id) {
     	$trip = Trip::find($trip_id);
     	$plans = Plan::where('trip_id',$trip_id)->orderBy('id','desc')->get();
 
     	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans);
     }
+
+
     public function alltrip(){
         $tripall=Trip::all();
         return view('trip.alltrip')->with('tripall',$tripall);
