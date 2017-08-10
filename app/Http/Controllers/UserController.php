@@ -46,7 +46,6 @@ class UserController extends Controller
             $user->sex=$request->gender;
             if($request->hasFile('avatar')){
                 $file = $request->file('avatar');
-                // dd($file);
                 $file->move(public_path().'/image/user/',$user->id.'.jpg');
                 $user->avatar= '/image/user/'.$user->id.'.jpg'; 
             }
@@ -69,6 +68,5 @@ class UserController extends Controller
         $join->message=$request->message;
         $join->status=0;
         $join->save();
-        return $join;
     }
 }

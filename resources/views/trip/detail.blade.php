@@ -119,6 +119,6 @@
 	</div>
 @endsection
 @section('script')
-	<script type="text/javascript" src="{{asset('js/follow.js')}}"></script>
-
+	<!-- <script type="text/javascript" src="{{asset('js/follow.js')}}"></script>
+ -->
 @endsection

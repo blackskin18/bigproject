@@ -31,6 +31,7 @@
 				<hr style="border-color: red;">
 				<div class="row">
 					<a href="http://localhost/bigproject/public/trip/create" class="col-lg-offset-2"><button class="btn btn-success col-lg-10 col-lg-offset-1">Create Trip</button></a>
+
 				</div>
 				<br><hr>
 

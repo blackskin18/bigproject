@@ -10,6 +10,8 @@ use App\Plan;
 use App\User;
 use App\Follow;
 use Validator;
+use App\Join;
+>>>>>>> 39357dc51deecd7ff31cd250e4d85a83d90e951a
 
 class TripController extends Controller
 {
@@ -122,11 +124,32 @@ class TripController extends Controller
     function detailTrip($trip_id) {
     	$trip = Trip::find($trip_id);
     	$plans = Plan::where('trip_id',$trip_id)->orderBy('id','desc')->get();
-
-    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans);
+        $find_users=Join::where('user_id',Auth::User()->id )->where('trip_id',$trip_id)->get();
+            if($find_users->count()){
+                foreach($find_users as $find_user){
+                    if($find_user->status==0){
+                         $joins=0;
+                    }else{
+                        $joins=1;
+                    }
+                }
+            }else{
+                $joins=-1;
+            }
+            if(Auth::User()->id==$trip->user_id){
+                return;
+            }else{
+                    $follow=0;
+                foreach($trip->follow as $follow){
+                    if($follow->user_id==Auth::User()->id){
+                        $follow=1;
+                    }else{
+                        $follow=0;
+                    }
+                }
+            }
+    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans)->with('joins',$joins)->with('follow',$follow);
     }
-
-
     public function alltrip(){
         $tripall=Trip::all();
         return view('trip.alltrip')->with('tripall',$tripall);

@@ -14,12 +14,7 @@
     <script src="{{ asset('js/create_trip.js') }}"></script>
     <noscript> bật js </noscript>
 	<style type="text/css" media="screen">
-		.map{
-			position: fixed;
-			margin: 0;
-			top: 50px;
-			left: 30px;
-		}
+		
 	</style>
 
   	</head>

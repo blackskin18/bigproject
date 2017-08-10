@@ -10,7 +10,7 @@
 	<div class="">
 		<div class="content_left col-lg-4">
 			<div class="col-lg-10 col-lg-offset-2">
-				<img src="{{($user->avatar)}}" alt="Avatar" title="Ảnh Đại Diện" style="height: 100px;"/>
+				<img src="{{asset($user->avatar)}}" alt="Avatar" title="Ảnh Đại Diện" style="height: 100px;"/>
 			</div>
 			<br>
 			<hr>
