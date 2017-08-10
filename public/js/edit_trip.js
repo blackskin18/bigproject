@@ -9,27 +9,91 @@ var directionsService;
 
 
 function initAutocomplete() {
-
-	//create map
+	// create map
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 21.0245, lng: 105.84117},
 		zoom: 13,
 		mapTypeId: 'roadmap'
 	});
 
-		directionsService = new google.maps.DirectionsService;
-		directionsDisplay = new google.maps.DirectionsRenderer({
+	// creat var direction route map
+	directionsService = new google.maps.DirectionsService;
+	directionsDisplay = new google.maps.DirectionsRenderer({
 	    map: map,
-		});
-		geocoder = new google.maps.Geocoder();
+	});
+	geocoder = new google.maps.Geocoder();
 
-	//add listener when click on the map
+	// push location of old trip to markers[]
+	for(var i = sum_place-1; i >= 0; i-- ){
+
+		var lat = $('#lat_'+i).val();
+		var lng = $('#lng_'+i).val();
+		console.log(i);
+		var a = new google.maps.Marker({
+		    position: {lat:  parseFloat(lat),lng:  parseFloat(lng)},
+		    animation: google.maps.Animation.DROP,
+		    map: map,
+		    draggable: true
+			});
+		markers.push(a);
+	}
+
+	// add listener for marker of old trip
+	for( var i = 0; i<sum_place-1; i++){
+		markers[i].addListener("rightclick", function(event) {
+			// clear all marker
+			clearMarkers();
+			// delete maker when click;
+			var a = (markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})) + 1;
+			var a_up_1 = a+1;
+			var a_down_1 = a-1;
+
+			// edit start name of last plan end remove plan when right click
+			console.log("delete:" + $('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
+			$('#list-plan div:nth-last-of-type('+a_down_1+') input:nth-last-of-type(7)').val($('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
+			$('#list-plan div:nth-last-of-type('+a+')').remove();
+			// remove marker
+			markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
+
+			//show all marker
+			showMarkers();
+			if(markers.length > 0){
+				getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+				getAddress(markers[0].getPosition(),'#trip_start_place');
+			}
+			if(markers.length>0){
+				directions();
+			}
+		});
+
+		markers[i].addListener("dragend", function(event) {
+			// index of <div> in #list plan
+			console.log(markers);
+			var b =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
+			var b_down_1 = b-1;
+			getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(8)');
+			getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b_down_1+') input:nth-last-of-type(7)')
+			if(markers.length > 0){
+				getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+			}
+			$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(2)').val(event.latLng.lat());
+			$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(1)').val(event.latLng.lng());
+
+			console.log(event.latLng.lat());
+			directions();
+		});
+	}
+
+	//draw route
+	directions();
+	
+	// add listener when click on the map
 	google.maps.event.addListener(map, 'click', function(event) {
 		$(document).ready(function() {
-			$(`<div style="border: 5px solid #CCCCCC; padding:10px; margin: 10px; border-radius: 20px; background: #F1F1F1">	
+			$(`<div style="border: 1px solid blue; padding:10px; margin: 10px;">	
 				
-				<label for="">place start</label> <input  class="form-control" type="text" >
-				<label for="">place end</label> <input class="form-control" type="text" >
+				<label for="">place start</label> <input  class="form-control" type="text" disabled>
+				<label for="">place end</label> <input class="form-control" type="text" disabled>
 				<label for="">time start </label> <input type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;" > 
 				<label for=""> time end </label><input  type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;">
 				<br>
@@ -37,17 +101,20 @@ function initAutocomplete() {
 				<label for="" style="margin-left:10px;">note </label> <input type="text" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
 				<input type="hidden" disabled >
 				<input type="hidden" disabled>
+
 				<div>
 				`).insertAfter('div.chapter p');
 		});
-		console.log(event.latLng);
+		// creat marker with locatin = event.latlng
 		makeMaker(event.latLng);
+		// push marker to markers
 		markers.push(marker);
-		placeMarker(event.latLng);
-
+		
 		// set name address when make a marker
 		getAddress(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(8)');
 		getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+		// getAddress(markers[0].getPosition(),'#trip_start_place');
+
 		$('#trip_start_place').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
 		if(markers.length > 0){
 			getAddress(event.latLng,'#list-plan div:nth-of-type(2) input:nth-last-of-type(7)');
@@ -67,6 +134,7 @@ function initAutocomplete() {
 		
 		//remove a marker
 		markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("rightclick", function(event) {
+			console.log(markers);
 			// clear all marker
 			clearMarkers();
 			// delete maker when click;
@@ -79,6 +147,7 @@ function initAutocomplete() {
 			console.log("delete:" + $('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
 			$('#list-plan div:nth-last-of-type('+a_down_1+') input:nth-last-of-type(7)').val($('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
 			$('#list-plan div:nth-last-of-type('+a+')').remove();
+			$('#trip_start_place').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
 			// remove marker
 			markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
 
@@ -86,7 +155,8 @@ function initAutocomplete() {
 			showMarkers();
 			if(markers.length > 0){
 				getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
-				$('#trip_start_place').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
+				// getAddress(markers[0].getPosition(),'#trip_start_place');
+				
 			}
 			if(markers.length>0){
 				directions();
@@ -95,18 +165,18 @@ function initAutocomplete() {
 
 		markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("dragend", function(event) {
 			// index of <div> in #list plan
+			console.log(markers);
 			var b =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
 			var b_down_1 = b-1;
 			getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(8)');
-			getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b_down_1+') input:nth-last-of-type(7)')
+			getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b_down_1+') input:nth-last-of-type(7)');
+			$('#trip_start_place').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
 			if(markers.length > 0){
 				getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
-				$('#trip_start_place').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
 			}
 			$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(2)').val(event.latLng.lat());
 			$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(1)').val(event.latLng.lng());
 
-			
 			console.log(event.latLng.lat());
 			directions();
 		});
@@ -140,10 +210,12 @@ function initAutocomplete() {
 	            	$(selecter).val("No results");
 	            	
 	            }
+	        } else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) { 
+				 	wait = true;
+				setTimeout("wait = true", 200);
 	        } else {
-	        	alert("error!!!, we can't get address for you, please import address in the plan");
-	        	// $(selecter).val(status);
-	        	// $(selecter).val(status);
+	        	$(selecter).val(status);
+	        	$(selecter).val(status);
 
 	            // document.getElementById("address"+address_index).value = status;
 	            // document.getElementById("end_place"+end_place).value = status;
@@ -203,9 +275,6 @@ function initAutocomplete() {
 
 function directions() {
 	directionsDisplay.setMap(map);
-	directionsDisplay.addListener('directions_changed', function() {
-    computeTotalDistance(directionsDisplay.getDirections());
-  	});
 	displayRoute(markers[0].getPosition(),markers[0].getPosition(), directionsService,
 	directionsDisplay);
 }
@@ -347,21 +416,13 @@ function addJson() {
 		       		 	window.location.reload()
 				    },
 				    error:function() {
-				    	alert("create trip with default cover");
+				    	alert("success");
 				    	window.location.reload()
 				    }
 	    		});
 	        },
-	        error: function(data) {
-        	var obj = JSON.parse(data.responseText);
-        		$('#show-errors li, #show-errors h4').remove();
-
-        		$('#show-errors').append('<h4>Error!!!</h4>');
-	        	for(var i in obj){
-        		$('#show-errors').append(`
-		              	<li>`+obj[i][0]+`</li>`);
-        		}
-	          	console.log(obj);
+	        error: function() {
+	         	alert("error");
 	        }
 	});
 	

@@ -7,7 +7,7 @@
     <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
-    <script src="{{ asset('js/create_trip.js') }}"></script>
+   
 	<style type="text/css" media="screen">
 
 		div#cover{
@@ -17,9 +17,6 @@
 			background-size: cover;
 			border-radius: 10px;
 		}
-
-
-		
 
 	</style>
 
@@ -95,6 +92,9 @@
 		</form>
 		<form action="#map">
 	    	<input type="submit" value="show map" class="btn btn-primary btn-md" />
+		</form>
+		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
+	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
 		</form>
 
 	</div>

@@ -35,3 +35,4 @@ Route::post('/user/create/{trip_id}','TripController@postTripCover');
 
 Route::get('/trip/detail-trip/{trip_id}','TripController@detailTrip');
 
+Route::get('trip/edit-trip/{trip_id}', 'TripController@editTrip');
