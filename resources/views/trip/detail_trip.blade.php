@@ -2,6 +2,7 @@
 	<?php
 		$link_img = asset($trip->cover);
 	?>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
@@ -93,6 +94,7 @@
 		<form action="#map">
 	    	<input type="submit" value="show map" class="btn btn-primary btn-md" />
 		</form>
+
 		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
 	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
 		</form>
@@ -107,6 +109,7 @@
 					<input type="hidden" name="trip_id" value="{{$trip->id}}" id="trip_id">
 					<input type="hidden" id="user_id" name="user_id" value="{{Auth::User()->id}}">
 		</form>
+    
 	</div>
 	<div class="comment">
 		
@@ -172,7 +175,4 @@
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&libraries=places&callback=initAutocomplete"
     async defer></script>
-@endsection
-@section('script')
-	<script type="text/javascript" src="{{(asset('js/follow.js'))}}"></script>
 @endsection
