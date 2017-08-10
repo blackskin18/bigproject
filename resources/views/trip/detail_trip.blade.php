@@ -8,7 +8,7 @@
     <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
-    <script src="{{ asset('js/create_trip.js') }}"></script>
+   
 	<style type="text/css" media="screen">
 
 		div#cover{
@@ -18,9 +18,6 @@
 			background-size: cover;
 			border-radius: 10px;
 		}
-
-
-		
 
 	</style>
 
@@ -98,6 +95,21 @@
 	    	<input type="submit" value="show map" class="btn btn-primary btn-md" />
 		</form>
 
+		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
+	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
+		</form>
+
+<!-- 		<form >
+			<input type="button" name="" value="">
+		</form> -->
+		<form action="#follow">
+				@if($follow==1) <button  value="1" class="btn btn-success follow" >Unfollow</button>
+				@else <button  value="0" class="btn btn-success follow" >Follow</button>
+				@endif
+					<input type="hidden" name="trip_id" value="{{$trip->id}}" id="trip_id">
+					<input type="hidden" id="user_id" name="user_id" value="{{Auth::User()->id}}">
+		</form>
+    
 	</div>
 	<div class="comment">
 		

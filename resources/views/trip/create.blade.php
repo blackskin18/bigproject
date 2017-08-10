@@ -12,11 +12,103 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/create_trip.css') }}" rel="stylesheet">
     <script src="{{ asset('js/create_trip.js') }}"></script>
+    <noscript> bật js </noscript>
+	<style type="text/css" media="screen">
+		
+	</style>
 
   	</head>
   	<body>
+  	<nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav">
+                        &nbsp;
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- Authentication Links -->
+                        @if (Auth::guest())
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="http://localhost/bigproject/public/user/detail-info/{{Auth::user()->id}}">Profile</a>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
   	<div style="width: 45%; float: left; margin-left: 10px;">
-		<div class="form-group" class="">
+<!-- 		<form class="form-inline" accept-charset="utf-8">
+			<div class="form-group" >
+				<label for=""> start date </label>
+				<input type="date" class="form-control" id="trip_start_date" placeholder="start date">
+			</div>
+			<div class="form-group">
+				<label for=""> end date </label>
+				<input type="date" class="form-control" placeholder="end date" id="trip_end_date">
+			</div>
+		</form> -->
+		<div style="width: 100%; height: 400px">
+			
+		</div>
+
+	    <div class="form-group map" style="margin-top: 20px; margin-left: 10px;">
+	    	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+	    	<div id="map"></div>
+	    	<input onclick="addJson()" type="button" value="submit" class="button-submit">
+	    </div>
+
+    	
+	</div>
+
+	<div style="width: 50%; height: 700px; float: left;">
+		  	<div >
+  		<div class="alert alert-danger" id="errors" >
+			<ul id="show-errors">
+			</ul>
+  		</div>
+  	</div>	
+
+		<div class="up-div"">
+			<div class="form-group" class="">
 			<label for=""> title </label>
 			<input type="text" class="form-control" id="trip_title">
 		</div>
@@ -44,20 +136,18 @@
 			<label for=""> status </label>
 			<input type="text" class="form-control" id="trip_note">
 		</div>
-	    <div class="form-group" style="margin-top: 20px; margin-left: 10px;">
-	    	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
-	    	<div id="map"></div>
-	    </div>
 
-    	<input onclick="addJson()" type="button" value="display route">
-	</div>
-
-	<div style="width: 50%; height: 700px; float: left;">
+		</div>
 
 	  	<div class="chapter" id="list-plan">
 	  		<p></p>
 	  	</div>
 		<div>
+<!-- 			<input onclick="clearMarkers();" type=button value="Hide Markers">
+		    <input onclick="showMarkers();" type=button value="Show All Markers">
+		    <input onclick="deleteMarkers();" type=button value="Delete Markers">
+			<input onclick="directions()" type="button" value="display route">
+			<input type="button" onclick="hiddenRoute()" value="hidden route"> -->
 		</div>
 	</div>
 

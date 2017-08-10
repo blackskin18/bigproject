@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Plan;
 use App\User;
 use App\Follow;
+use Validator;
 use App\Join;
+>>>>>>> 39357dc51deecd7ff31cd250e4d85a83d90e951a
 
 class TripController extends Controller
 {
@@ -50,9 +52,30 @@ class TripController extends Controller
     }
     public function postTrip(Request $request)
     {
-    	$user_id = Auth::user()->id;
+        $decode = json_decode($request, true);
 
+    	$user_id = Auth::user()->id;
     	$plan_jsons = $request->json;
+
+        Validator::make($plan_jsons[0], [
+            "trip_title" => "required",
+            "trip_note" => "required",
+            "trip_sum_member" => "required|Integer",
+            "trip_start_place" => "required",
+            ])->validate();
+
+        foreach ($plan_jsons as $key => $value) {
+            Validator::make($plan_jsons[$key], [
+            "place_start_lat" => "required",
+            "place_start_lng" => "required",
+            "vehicle" => "required",
+            "note" => "required",
+            "time_start" => "required",
+            "time_end" => "required",
+            "end_place" => "required",
+            "start_place" => "required",
+            ])->validate();
+        }
 
     	$trip = new Trip;
     	$trip->title = $plan_jsons[0]['trip_title'];
@@ -83,17 +106,18 @@ class TripController extends Controller
 
     public function postTripCover($trip_id, Request $request) {
     	$trip = Trip::find($trip_id);
+
+        return $request;
     	if ($request->hasFile('cover'))
 		    {
                 $file = $request->file('cover');
                 
                 $file->move(public_path().'/img/cover/',$trip->id.'.jpg');
                 $trip->cover= '/img/cover/'.$trip->id.'.jpg';
+                $trip->save();
+                return "save complete";
 		    }
-		else {
-			return "không có file";
-		}
-		$trip->save();
+		
     }
 
 
@@ -144,5 +168,13 @@ class TripController extends Controller
     }
     public function message(Request $request){
 
+    }
+
+    public function editTrip($trip_id){
+
+        $trip = Trip::find($trip_id);
+        $plans = Plan::where('trip_id',$trip_id)->orderBy('id')->get();
+        return view('trip/edit_trip')->with('trip', $trip)->with('plans', $plans);
+    
     }
 }
