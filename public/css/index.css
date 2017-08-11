@@ -1,6 +1,20 @@
-
-div.container{
-	position: fixed;
-	top: 0;
-	left: 0;
+.avatar{
+	width: 200px;
+	height: 200px;
+	border-radius: 200px;
 }
+a#user:hover{
+	opacity: 0.8
+}
+
+li{
+	text-align: center
+}
+
+hr{
+	border-color: red;
+}
+div.name-user{
+ margin: 0px;
+}
+

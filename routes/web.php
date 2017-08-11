@@ -38,3 +38,5 @@ Route::get('/trip/detail-trip/{trip_id}','TripController@detailTrip');
 Route::get('trip/edit-trip/{trip_id}', 'TripController@editTrip');
 
 Route::get('/user/detail-info/{user_id}','UserController@info');
+
+Route::post('/trip/edit-trip/post-edit/{trip_id}', 'TripController@postEditTrip');
