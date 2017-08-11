@@ -87,7 +87,6 @@
 			</div>
 		</form> -->
 		<div style="width: 100%; height: 400px">
-			
 		</div>
 
 	    <div class="form-group map" style="margin-top: 20px; margin-left: 10px;">

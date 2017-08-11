@@ -38,55 +38,57 @@ function initAutocomplete() {
 		markers.push(a);
 	}
 
-	// add listener for marker of old trip
-	for( var i = 0; i<sum_place-1; i++){
-		markers[i].addListener("rightclick", function(event) {
-			// clear all marker
-			clearMarkers();
-			// delete maker when click;
-			var a = (markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})) + 1;
-			var a_up_1 = a+1;
-			var a_down_1 = a-1;
+	console.log(sum_place);
+	if(sum_place >0){
+		// add listener for marker of old trip
+		for( var i = 0; i<sum_place; i++){
+			markers[i].addListener("rightclick", function(event) {
+				console.log(i);
+				// clear all marker
+				clearMarkers();
+				// delete maker when click;
+				var a = (markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})) + 1;
+				var a_up_1 = a+1;
+				var a_down_1 = a-1;
 
-			// edit start name of last plan end remove plan when right click
-			console.log("delete:" + $('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
-			$('#list-plan div:nth-last-of-type('+a_down_1+') input:nth-last-of-type(7)').val($('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
-			$('#list-plan div:nth-last-of-type('+a+')').remove();
-			// remove marker
-			markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
+				// edit start name of last plan end remove plan when right click
+				console.log("delete:" + $('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
+				$('#list-plan div:nth-last-of-type('+a_down_1+') input:nth-last-of-type(7)').val($('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
+				$('#list-plan div:nth-last-of-type('+a+')').remove();
+				// remove marker
+				markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
 
-			//show all marker
-			showMarkers();
-			if(markers.length > 0){
-				getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
-				getAddress(markers[0].getPosition(),'#trip_start_place');
-			}
-			if(markers.length>0){
+				//show all marker
+				showMarkers();
+				if(markers.length > 0){
+					getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+					getAddress(markers[0].getPosition(),'#trip_start_place');
+				}
+				if(markers.length>0){
+					directions();
+				}
+			});
+
+			markers[i].addListener("dragend", function(event) {
+				// index of <div> in #list plan
+				console.log(markers);
+				var b =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
+				var b_down_1 = b-1;
+				getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(8)');
+				getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b_down_1+') input:nth-last-of-type(7)')
+				if(markers.length > 0){
+					getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+				}
+				$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(2)').val(event.latLng.lat());
+				$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(1)').val(event.latLng.lng());
+
+				console.log(event.latLng.lat());
 				directions();
-			}
-		});
-
-		markers[i].addListener("dragend", function(event) {
-			// index of <div> in #list plan
-			console.log(markers);
-			var b =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
-			var b_down_1 = b-1;
-			getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(8)');
-			getAddress(event.latLng,'#list-plan div:nth-last-of-type('+b_down_1+') input:nth-last-of-type(7)')
-			if(markers.length > 0){
-				getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
-			}
-			$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(2)').val(event.latLng.lat());
-			$('#list-plan div:nth-last-of-type('+b+') input:nth-last-of-type(1)').val(event.latLng.lng());
-
-			console.log(event.latLng.lat());
-			directions();
-		});
-	}
-
+			});
+		}
 	//draw route
 	directions();
-	
+	}
 	// add listener when click on the map
 	google.maps.event.addListener(map, 'click', function(event) {
 		$(document).ready(function() {
@@ -99,8 +101,8 @@ function initAutocomplete() {
 				<br>
 				<label for="">vehicle </label> <input type="text" style="width: 230px; border-radius:3px; padding: 4px; margin-left: 23px;" >
 				<label for="" style="margin-left:10px;">note </label> <input type="text" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
-				<input type="hidden" disabled >
-				<input type="hidden" disabled>
+				<input type="text" disabled >
+				<input type="text" disabled>
 
 				<div>
 				`).insertAfter('div.chapter p');
@@ -349,7 +351,7 @@ if (marker.getAnimation() !== null) {
 function addJson() {
 	var sum_element = $('#list-plan div').size()/2;
 	console.log(sum_element);
-
+	var trip_id = $('#trip_id').val();
 	for(var i = 1; i <=markers.length; i++){
 		var place_start_lat = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(1)').val();
 		var place_start_lng = $('#list-plan div:nth-of-type('+i+') input:nth-last-of-type(2)').val();
@@ -384,7 +386,7 @@ function addJson() {
 	json[0].trip_note = trip_note;
 	json[0].trip_start_place = trip_start_place;
 
-	var url = window.location.origin + '/bigproject/public' + '/user/create/ok';
+	var url = window.location.origin + '/bigproject/public' + '/trip/edit-trip/post-edit/'+trip_id;
 	console.log(json);
 	$.ajaxSetup({
 	    headers: {
@@ -401,6 +403,7 @@ function addJson() {
 	        	json,
 	        },
 	        success: function(data){
+	        	console.log(data);
 	            var urlx = window.location.origin + '/bigproject/public' + '/user/create/'+data;
 	            console.log(urlx);
 	            $.ajax({
@@ -412,12 +415,12 @@ function addJson() {
 				    processData: false,
 				    contentType: false,
 				    success:function(){
-				    	alert("success ");
-		       		 	window.location.reload()
+				    	alert("update complete");
+		       		 	//window.location.reload()
 				    },
 				    error:function() {
-				    	alert("success");
-				    	window.location.reload()
+				    	alert("update complete with old cover");
+				    	//window.location.reload()
 				    }
 	    		});
 	        },

@@ -46,23 +46,20 @@ function initAutocomplete() {
 		placeMarker(event.latLng);
 
 		// set name address when make a marker
+		// set name start place of last plan (first div)
 		getAddress(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(8)');
-		getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+		//getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+		// set name of end place of last plan = name of start plan of first plan
+		$('#list-plan div:first-of-type input:nth-last-of-type(7)').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
+		// set name of trip start place = name of start place first plan
 		$('#trip_start_place').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
 		if(markers.length > 0){
+			// set name of end place of last plan = name of start place of fisrt plan
 			getAddress(event.latLng,'#list-plan div:nth-of-type(2) input:nth-last-of-type(7)');
-		} else {
-
 		}
 
-		// set location for start place
+		// set location for start place of plan
 		placeMarker(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(2)', '#list-plan div:first-of-type input:nth-last-of-type(1)');
-
-		// if(markers.length > 1){
-		// 	json.push({ "location1": [markers[markers.length-2].getPosition().lat(), markers[markers.length-2].getPosition().lng()],
-		// 				"location2": [markers[markers.length-1].getPosition().lat(), markers[markers.length-1].getPosition().lng()]});
-		// }
-
 		directions();
 		
 		//remove a marker
@@ -70,6 +67,7 @@ function initAutocomplete() {
 			// clear all marker
 			clearMarkers();
 			// delete maker when click;
+			// a is index of plan
 			var a =  markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}) + 1;
 			var a_up_1 = a+1;
 			var a_down_1 = a-1;
@@ -77,11 +75,11 @@ function initAutocomplete() {
 			console.log("a" +a);
 			// edit start name of last plan end remove plan when right click
 			console.log("delete:" + $('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
+			// update name place
 			$('#list-plan div:nth-last-of-type('+a_down_1+') input:nth-last-of-type(7)').val($('#list-plan div:nth-last-of-type('+a_up_1+') input:nth-last-of-type(8)').val());
 			$('#list-plan div:nth-last-of-type('+a+')').remove();
 			// remove marker
 			markers.splice(markers.findIndex(function(marker) {return marker.getPosition()===event.latLng}),1);
-
 			//show all marker
 			showMarkers();
 			if(markers.length > 0){
@@ -141,8 +139,8 @@ function initAutocomplete() {
 	            	
 	            }
 	        } else {
+	        	$(selecter).val("error");
 	        	alert("error!!!, we can't get address for you, please import address in the plan");
-	        	// $(selecter).val(status);
 	        	// $(selecter).val(status);
 
 	            // document.getElementById("address"+address_index).value = status;
@@ -342,8 +340,8 @@ function addJson() {
 				    type:'post',
 				    processData: false,
 				    contentType: false,
-				    success:function(){
-				    	alert("success ");
+				    success:function(data){
+				    	alert("success");
 		       		 	window.location.reload()
 				    },
 				    error:function() {

@@ -102,13 +102,7 @@
 <!-- 		<form >
 			<input type="button" name="" value="">
 		</form> -->
-		<form action="#follow">
-				@if($follow==1) <button  value="1" class="btn btn-success follow" >Unfollow</button>
-				@else <button  value="0" class="btn btn-success follow" >Follow</button>
-				@endif
-					<input type="hidden" name="trip_id" value="{{$trip->id}}" id="trip_id">
-					<input type="hidden" id="user_id" name="user_id" value="{{Auth::User()->id}}">
-		</form>
+		
     
 	</div>
 	<div class="comment">

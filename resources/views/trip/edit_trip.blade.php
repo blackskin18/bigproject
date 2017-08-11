@@ -19,6 +19,7 @@
 	<noscript> bạn cần bật js </noscript>
   	</head>
   	<body>
+  		<input type="text" id="trip_id" value="{{$trip->id}}">
   			<div id="location-input">
 			@foreach($plans as $key => $plan)
 				<div>
@@ -83,8 +84,8 @@
 				<br>
 				<label for="">vehicle </label> <input type="text" value="{{$plan->verhicle}}" style="width: 230px; border-radius:3px; padding: 4px; margin-left: 23px;" >
 				<label for="" style="margin-left:10px;">note </label> <input type="text" value="{{$plan->active}}" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
-				<input type="hidden" disabled>
-				<input type="hidden" disabled>
+				<input type="text" disabled value="{{$plan->place_start_lat}}">
+				<input type="text" disabled value="{{$plan->place_start_lng}}">
 			</div>
 			@endforeach
 
