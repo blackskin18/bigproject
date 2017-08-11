@@ -101,7 +101,10 @@ class TripController extends Controller
     	$trip = Trip::find($trip_id);
     	$plans = Plan::where('trip_id',$trip_id)->orderBy('id','desc')->get();
         $find_users=Join::where('user_id',Auth::User()->id )->where('trip_id',$trip_id)->get();
-            if($find_users->count()){
+            if(Auth::User()->id==$trip->user_id){
+                $joins=2;
+            }
+            elseif ($find_users->count()){
                 foreach($find_users as $find_user){
                     if($find_user->status==0){
                          $joins=0;
@@ -112,19 +115,7 @@ class TripController extends Controller
             }else{
                 $joins=-1;
             }
-            if(Auth::User()->id==$trip->user_id){
-                return;
-            }else{
-                    $follow=0;
-                foreach($trip->follow as $follow){
-                    if($follow->user_id==Auth::User()->id){
-                        $follow=1;
-                    }else{
-                        $follow=0;
-                    }
-                }
-            }
-    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans)->with('joins',$joins)->with('follow',$follow);
+    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans)->with('joins',$joins);
     }
     public function alltrip(){
         $tripall=Trip::all();
@@ -135,7 +126,7 @@ class TripController extends Controller
         $follow->user_id=$request->user_id;
         $follow->trip_id=$request->trip_id;
         $follow->save();
-        return $follow;
+            return 1;
     }
     public function unfollow(Request $request){
         $follow=Follow::where('user_id',Auth::User()->id)->where('trip_id',$request->trip_id);
@@ -144,5 +135,21 @@ class TripController extends Controller
     }
     public function message(Request $request){
 
+    }
+    public function manageuser($id){
+        $user_joins=Join::where('trip_id',$id)->where('status',1)->get();
+        $user_requests=Join::where('trip_id',$id)->where('status',0)->get();
+        return view('user.manageuser')->with('user_joins',$user_joins)->with('user_requests',$user_requests);
+    }
+    public function delete_user_join(Request $request){
+        Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',1)->delete();
+        return 0;
+    }
+    public function delete_user_request(Request $request){
+        Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',0)->delete();
+        return 0;
+    }
+    public function accept(Request $request){
+        
     }
 }

@@ -1,11 +1,12 @@
 @extends('/layouts.index')
+    <script  src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
+    <script src="{{ asset('js/create_trip.js') }}"></script>
 	<?php
 		$link_img = asset($trip->cover);
 	?>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-    <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
     <script src="{{ asset('js/create_trip.js') }}"></script>
 	<style type="text/css" media="screen">
@@ -17,10 +18,6 @@
 			background-size: cover;
 			border-radius: 10px;
 		}
-
-
-		
-
 	</style>
 
 @section('content_right')
@@ -96,9 +93,24 @@
 		<form action="#map">
 	    	<input type="submit" value="show map" class="btn btn-primary btn-md" />
 		</form>
-<!-- 		<form >
-			<input type="button" name="" value="">
-		</form> -->
+		@if(Auth::User()->id==$trip->user_id)
+			
+		@else
+ 			<?php  
+				$follow=0;
+			?> 
+			@foreach($trip->follow as $follow)
+				@if($follow->user_id==Auth::User()->id)
+					<?php 
+						$follow=1;
+					 ?>
+				 @else 
+				 	<?php 
+				 		$follow=0;
+				 	 ?>
+			 	 @endif
+			@endforeach
+
 		<form action="#follow">
 				@if($follow==1) <button  value="1" class="btn btn-success follow" >Unfollow</button>
 				@else <button  value="0" class="btn btn-success follow" >Follow</button>
@@ -106,6 +118,40 @@
 					<input type="hidden" name="trip_id" value="{{$trip->id}}" id="trip_id">
 					<input type="hidden" id="user_id" name="user_id" value="{{Auth::User()->id}}">
 		</form>
+		@endif
+		<form >
+			@if($joins==-1)
+				<div class="col-lg-3">
+					<button class="btn btn-warning join"  value="-1">Join</button>
+						<div class="modal fade" id="myModal" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Message  Join</h4>	
+									</div>
+									<div class="modal-body" style="height: 135px;">
+										<h5>Lý do bạn muốn tham gia:</h5>
+										<textarea rows="3" class="col-lg-8 form-control" name="message" id="message"></textarea>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal" id="request">OK</button>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+			@elseif($joins==1)
+				<div class="col-lg-3" >
+					<button class="btn btn-warning join" value="1">Out</button>
+				</div>	
+			@elseif($joins==0)
+				<div class="col-lg-3" >
+					<button class="btn btn-warning join" value="0">Cancel Request</button>
+				</div>
+			@endif
+		</form>
+		
 	</div>
 	<div class="comment">
 		
@@ -140,7 +186,7 @@
 				});
 			}
 
-			console.log(markers);
+			// console.log(marker);
 			  displayRoute(markers[0], markers[0], directionsService, directionsDisplay);
 		}
 
@@ -169,9 +215,11 @@
 		}
 
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&libraries=places&callback=initAutocomplete"
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpixEk5bCGe2Qhpcn0r3_ERnf-E1ivgu4&callback=initAutocomplete"
     async defer></script>
+<!-- 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFviFQyjiV9qdj1tVihht1KiZ-NtvJgo&callback=initMap"
+  type="text/javascript"  async defer ></script> -->
 @endsection
 @section('script')
-	<script type="text/javascript" src="{{(asset('js/follow.js'))}}"></script>
+	<script type="text/javascript" src="{{asset('js/follow.js')}}"></script>
 @endsection

@@ -8,7 +8,7 @@
 						<a href="http://localhost/bigproject/public/user/detail-info/{{Auth::user()->id}}" id="user">
 							<div>
 								<?php 
-									$link_img = asset(Auth::user()->avatar);
+									$link_img = asset(Auth::User()->avatar);
 								?>
 								<img src="{{$link_img}}" style="width: 200px;">
 								<div class="col-lg-offset-2" style="text-align: center;">

@@ -28,7 +28,7 @@ class UserController extends Controller
     		$user=User::find(Auth::User()->id);
     		$this->validate($request,[
     				'name'=>'required',
-    				'avatar'=>'required|mimes:jpeg,png,jpg,gif,svg|max:2048 ',
+    				'avatar'=>'required|mimes:jpeg,png,jpg,gif,svg|max:100000 ',
     				'birthday'=>'required',
     				'verhicle'=>'required',
     				'phone'=>'required',
@@ -68,5 +68,6 @@ class UserController extends Controller
         $join->message=$request->message;
         $join->status=0;
         $join->save();
+        return 1;
     }
 }
