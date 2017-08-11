@@ -104,7 +104,7 @@ class TripController extends Controller
 
     public function postTripCover($trip_id, Request $request) {
     	$trip = Trip::find($trip_id);
-
+        
     	if ($request->hasFile('cover'))
 		    {
                 $file = $request->file('cover');

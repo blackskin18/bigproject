@@ -1,5 +1,5 @@
 
-var json = [];
+
 var markers = [];
 var marker;
 var map;
@@ -91,47 +91,46 @@ function initAutocomplete() {
 	}
 	// add listener when click on the map
 	google.maps.event.addListener(map, 'click', function(event) {
-		$(document).ready(function() {
-			$(`<div style="border: 1px solid blue; padding:10px; margin: 10px;">	
+			$(`<div style="border: 5px solid #CCCCCC; padding:10px; margin: 10px; border-radius: 20px; background: #F1F1F1">	
 				
-				<label for="">place start</label> <input  class="form-control" type="text" disabled>
-				<label for="">place end</label> <input class="form-control" type="text" disabled>
-				<label for="">time start </label> <input type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;" > 
-				<label for=""> time end </label><input  type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;">
+				<label for="">place start</label> <input  class="form-control" type="text" >
+				<label for="">place end</label> <input class="form-control" type="text" >
+				<label for="">time start </label> <input type="text" class="datetimepicker" style="margin:10px; border-radius:3px; padding: 3px;" > 
+				<label for=""> time end </label><input  type="text" class="datetimepicker" style="margin:10px; border-radius:3px; padding: 3px;">
 				<br>
 				<label for="">vehicle </label> <input type="text" style="width: 230px; border-radius:3px; padding: 4px; margin-left: 23px;" >
 				<label for="" style="margin-left:10px;">note </label> <input type="text" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
-				<input type="text" disabled >
-				<input type="text" disabled>
-
+				<input type="hidden" disabled >
+				<input type="hidden" disabled>
 				<div>
 				`).insertAfter('div.chapter p');
-		});
+
 		// creat marker with locatin = event.latlng
 		makeMaker(event.latLng);
 		// push marker to markers
 		markers.push(marker);
 		
 		// set name address when make a marker
+		// set name start place of last plan (first div)
 		getAddress(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(8)');
-		getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
-		// getAddress(markers[0].getPosition(),'#trip_start_place');
-
+		//getAddress(markers[0].getPosition(),'#list-plan div:first-of-type input:nth-last-of-type(7)');
+		// set name of end place of last plan = name of start plan of first plan
+		$('#list-plan div:first-of-type input:nth-last-of-type(7)').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
+		// set name of trip start place = name of start place first plan
 		$('#trip_start_place').val($('#list-plan div:last-of-type input:nth-last-of-type(8)').val());
 		if(markers.length > 0){
+			// set name of end place of last plan = name of start place of fisrt plan
 			getAddress(event.latLng,'#list-plan div:nth-of-type(2) input:nth-last-of-type(7)');
-		} else {
-
 		}
 
 		// set location for start place
 		placeMarker(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(2)', '#list-plan div:first-of-type input:nth-last-of-type(1)');
 
-		// if(markers.length > 1){
-		// 	json.push({ "location1": [markers[markers.length-2].getPosition().lat(), markers[markers.length-2].getPosition().lng()],
-		// 				"location2": [markers[markers.length-1].getPosition().lat(), markers[markers.length-1].getPosition().lng()]});
-		// }
-
+		$(document).ready(function () {
+			jQuery('#datetimepicker').datetimepicker();
+			jQuery('.datetimepicker').datetimepicker();
+		});
+		
 		directions();
 		
 		//remove a marker
@@ -349,6 +348,7 @@ if (marker.getAnimation() !== null) {
 }
 
 function addJson() {
+	var json = [];
 	var sum_element = $('#list-plan div').size()/2;
 	console.log(sum_element);
 	var trip_id = $('#trip_id').val();
@@ -416,17 +416,26 @@ function addJson() {
 				    contentType: false,
 				    success:function(){
 				    	alert("update complete");
-		       		 	//window.location.reload()
+		       		 	window.location.replace('http://localhost/bigproject/public/trip/detail-trip/' + data);
 				    },
 				    error:function() {
 				    	alert("update complete with old cover");
-				    	//window.location.reload()
+				    	window.location.replace('http://localhost/bigproject/public/trip/detail-trip/' + data);
 				    }
 	    		});
 	        },
-	        error: function() {
-	         	alert("error");
+	        error: function(data) {
+ 	        	var obj = JSON.parse(data.responseText);
+        		$('#show-errors li, #show-errors h4').remove();
+
+        		$('#show-errors').append('<h4>Error!!!</h4>');
+	        	for(var i in obj){
+        		$('#show-errors').append(`
+		              	<li>`+obj[i][0]+`</li>`);
+        		}
+	          	console.log(obj);
 	        }
 	});
 	
+
 }

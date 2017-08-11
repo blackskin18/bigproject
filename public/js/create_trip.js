@@ -62,6 +62,12 @@ function initAutocomplete() {
 		placeMarker(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(2)', '#list-plan div:first-of-type input:nth-last-of-type(1)');
 		directions();
 		
+		$(document).ready(function () {
+			jQuery('#datetimepicker').datetimepicker();
+			jQuery('.datetimepicker').datetimepicker();
+		});
+
+		
 		//remove a marker
 		markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("rightclick", function(event) {
 			// clear all marker
