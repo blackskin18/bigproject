@@ -26,17 +26,25 @@ Route::post('/trip/detail/{trip_id}','TripController@postdetail');
 Route::get('/trip/delete/{id}','TripController@delete');
 Route::get('/trip/all','TripController@alltrip');
 Route::post('/trip/follow','TripController@follow');
-
 Route::post('/trip/unfollow','TripController@unfollow');
-
 Route::post('/user/create/ok','TripController@postTrip');
-
+Route::post('/trip/join','UserController@join');
+Route::post('/trip/out','UserController@out');
+Route::post('/trip/cancelrequest','UserController@cancelrequest');
 Route::post('/user/create/{trip_id}','TripController@postTripCover');
-
 Route::get('/trip/detail-trip/{trip_id}','TripController@detailTrip');
+Route::get('/trip/manageuser/{id}','TripController@manageuser');
 
 Route::get('trip/edit-trip/{trip_id}', 'TripController@editTrip');
 
 Route::get('/user/detail-info/{user_id}','UserController@info');
 
 Route::post('/trip/edit-trip/post-edit/{trip_id}', 'TripController@postEditTrip');
+
+Route::post('trip/delete_user_join','TripController@delete_user_join');
+Route::post('trip/delete_user_request','TripController@delete_user_request');
+Route::post('trip/accept','TripController@accept');
+
+Route::post('trip/detail-trip/comment/{trip_id}/{user_id}','CommentController@postComment');
+
+Route::post('trip/detail-trip/sub-comment/{trip_id}/{user_id}/{parent_comment_id}','CommentController@postSubComment');

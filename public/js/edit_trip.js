@@ -123,15 +123,12 @@ function initAutocomplete() {
 			getAddress(event.latLng,'#list-plan div:nth-of-type(2) input:nth-last-of-type(7)');
 		}
 
+		directions();	
 		// set location for start place
 		placeMarker(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(2)', '#list-plan div:first-of-type input:nth-last-of-type(1)');
 
-		$(document).ready(function () {
-			jQuery('#datetimepicker').datetimepicker();
-			jQuery('.datetimepicker').datetimepicker();
-		});
-		
-		directions();
+		jQuery('.datetimepicker').datetimepicker();
+
 		
 		//remove a marker
 		markers[markers.findIndex(function(marker) {return marker.getPosition()===event.latLng})].addListener("rightclick", function(event) {

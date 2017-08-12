@@ -77,7 +77,7 @@
             </div>
         </nav>
 	
-	<input type="text" id="trip_id" value="{{$trip->id}}">
+	<input type="hidden" id="trip_id" value="{{$trip->id}}" disabled>
 	<div id="location-input">
 		@foreach($plans as $key => $plan)
 			<div>
