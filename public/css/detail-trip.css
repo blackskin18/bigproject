@@ -5,7 +5,7 @@ div#content-map{
 }
 
 div#map{
-	width: 1150px; height: 500px
+	width: 980px; height: 500px
 }
 
 div#plan_list{
@@ -55,4 +55,95 @@ div.time{
 div.vehicle{
 	float: left; width: 200px;
 	margin-left: 50px;
-} 
+}
+div.comment-layout{
+	width: 980px;
+	margin-top: 50px;
+}
+
+div.comment-layout div.comment{
+	width: 980px;
+}
+div.comment-layout div.show-comment div.comment a{
+	float: left;
+}
+
+div.comment-layout div.show-comment div.comment div.avatar-user{
+	width: 50px;
+	height: 50px;
+	background-size: cover;
+	border-radius: 25px;
+	float: left;
+}
+div.comment-layout div.show-comment div.comment div.right div.comment-and-name{
+	width: 930px;
+	height: 30px;
+	padding-top: 10px;
+	float: left;
+	float: left: ;
+	/* margin-left: 60px; */
+}
+
+div.comment-layout div.show-comment div.comment div.right div.comment-and-name a{
+	float: left;
+	padding-bottom: 0;
+}
+
+div.comment-layout div.show-comment div.comment div.right div.comment-and-name p{
+	float: left;
+	padding: 0;
+	margin-left: 20px;
+	margin-bottom: 0px;
+}
+
+div.comment-layout div.show-comment div.comment div.right div.show-sub-comment{
+	width: 900px;
+	float: left;
+	margin-top:  0;
+	padding-left: 20px;
+}
+
+div.comment-layout div.input-comment {
+	margin-top:  10px;
+}
+div.comment-layout div.input-comment div.avatar-user{
+	width: 40px;
+	height: 40px;
+	background-size: cover;
+	border-radius: 20px;
+	float: left;
+	display: inline-block;
+}
+
+div.comment-layout div.input-comment div.input{
+	display: inline-block;
+	width: 900px
+}
+div.sub-comment{
+
+}
+
+
+div.sub-comment div.content-comment>div>a.user-name>p{
+	margin-left: 20px;
+	float: left;
+}
+
+div.sub-comment div.content-comment div>p{
+	float: left;
+	margin-left: 20px;
+}
+
+div.sub-comment{
+	height: 60px;
+	width: 930px;
+    margin-top: 0px;
+    padding-top: 0;
+    margin-left: 70px;
+    display: block;
+    float: left;
+}
+
+div.comment{
+	display: block;
+}
