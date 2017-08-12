@@ -6,7 +6,36 @@ var map;
 var markers_index;
 var directionsDisplay;
 var directionsService;
+//fix date time picker
+var datetimepickerOptions = {
+    lang: 'cs',
+    format: 'Y-m-d H:i:s',
+    step: 30,
+    minTime: '8:30',
+    maxTime: '17:30',
+    minDate: '+1970/01/02', //tomorrow
+    maxDate: '+1970/05/01', //five months ahead
+    dayOfWeekStart: 1,      //week begins with monday
+    onSelectDate: function(current) {       
+        initDaytimePicker(current);
+    }
+};
 
+function initDaytimePicker(date) {
+    $.ajax({
+        url: '//' + window.location.hostname + '/api',
+        data: 'date=' + encodeURIComponent(date),
+        success: function(data) {
+            datetimepickerOptions.allowTimes = data;            
+        },
+        complete: function () {
+            $('#datepicker_input').datetimepicker(datetimepickerOptions);
+        }
+    });
+}
+
+//initialize at page load with todays date
+initDaytimePicker(new Date);
 
 function initAutocomplete() {
 	// create map
@@ -127,7 +156,7 @@ function initAutocomplete() {
 		// set location for start place
 		placeMarker(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(2)', '#list-plan div:first-of-type input:nth-last-of-type(1)');
 
-		jQuery('.datetimepicker').datetimepicker();
+		jQuery('.datetimepicker').datetimepicker(datetimepickerOptions);
 
 		
 		//remove a marker
