@@ -1,5 +1,4 @@
 
-var json = [];
 var markers = [];
 var marker;
 var map;
@@ -25,13 +24,13 @@ function initAutocomplete() {
 
 	//add listener when click on the map
 	google.maps.event.addListener(map, 'click', function(event) {
-		$(document).ready(function() {
+
 			$(`<div style="border: 5px solid #CCCCCC; padding:10px; margin: 10px; border-radius: 20px; background: #F1F1F1">	
 				
 				<label for="">place start</label> <input  class="form-control" type="text" >
 				<label for="">place end</label> <input class="form-control" type="text" >
-				<label for="">time start </label> <input type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;" > 
-				<label for=""> time end </label><input  type="datetime-local" style="margin:10px; border-radius:3px; padding: 3px;">
+				<label for="">time start </label> <input type="text" class="datetimepicker" style="margin:10px; border-radius:3px; padding: 3px;" > 
+				<label for=""> time end </label><input  type="text" class="datetimepicker" style="margin:10px; border-radius:3px; padding: 3px;">
 				<br>
 				<label for="">vehicle </label> <input type="text" style="width: 230px; border-radius:3px; padding: 4px; margin-left: 23px;" >
 				<label for="" style="margin-left:10px;">note </label> <input type="text" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
@@ -39,7 +38,7 @@ function initAutocomplete() {
 				<input type="hidden" disabled>
 				<div>
 				`).insertAfter('div.chapter p');
-		});
+
 		console.log(event.latLng);
 		makeMaker(event.latLng);
 		markers.push(marker);
@@ -57,9 +56,14 @@ function initAutocomplete() {
 			// set name of end place of last plan = name of start place of fisrt plan
 			getAddress(event.latLng,'#list-plan div:nth-of-type(2) input:nth-last-of-type(7)');
 		}
-
+		directions();
 		// set location for start place of plan
 		placeMarker(event.latLng,'#list-plan div:first-of-type input:nth-last-of-type(2)', '#list-plan div:first-of-type input:nth-last-of-type(1)');
+		
+		// datetimepicker
+		jQuery('.datetimepicker').datetimepicker();
+		
+
 		directions();
 		
 		//remove a marker
@@ -276,6 +280,8 @@ if (marker.getAnimation() !== null) {
 }
 
 function addJson() {
+
+	var json = [];
 	var sum_element = $('#list-plan div').size()/2;
 	console.log(sum_element);
 
@@ -342,11 +348,11 @@ function addJson() {
 				    contentType: false,
 				    success:function(data){
 				    	alert("success");
-		       		 	window.location.reload()
+		       		 	window.location.replace('http://localhost/bigproject/public/trip/detail-trip/' + data);
 				    },
 				    error:function() {
 				    	alert("create trip with default cover");
-				    	window.location.reload()
+				    	window.location.replace('http://localhost/bigproject/public/trip/detail-trip/' + data);
 				    }
 	    		});
 	        },

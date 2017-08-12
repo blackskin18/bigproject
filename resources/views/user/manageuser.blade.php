@@ -73,7 +73,7 @@
 				<div><input type="hidden" name="" id="trip_id_request" value="{{$user_request->trip_id}}"></div>
 				<div><input type="hidden" name="" id="user_id_request" value="{{$user_request->user_id}}"></div>
 				<div class="col-lg-1">
-					<button class="btn btn-primary accept">Accept</button>
+					<button class="btn btn-primary accept" data-dismiss="alert" >Accept</button>
 				</div>
 			
 			<hr>

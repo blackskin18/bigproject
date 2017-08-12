@@ -11,6 +11,7 @@ use App\User;
 use App\Follow;
 use Validator;
 use App\Join;
+use DB;
 
 class TripController extends Controller
 {
@@ -104,14 +105,14 @@ class TripController extends Controller
 
     public function postTripCover($trip_id, Request $request) {
     	$trip = Trip::find($trip_id);
-
+        
     	if ($request->hasFile('cover'))
 		    {
                 $file = $request->file('cover');
                 $file->move(public_path().'/img/cover/',$trip->id.'.jpg');
                 $trip->cover= '/img/cover/'.$trip->id.'.jpg';
                 $trip->save();
-                return 1;
+                return $trip_id;
 		    }
         else{
             
@@ -178,6 +179,21 @@ class TripController extends Controller
     function detailTrip($trip_id) {
     	$trip = Trip::find($trip_id);
     	$plans = Plan::where('trip_id',$trip_id)->orderBy('id','desc')->get();
+        // $comments = Trip::find($trip_id)->comment;
+
+        $comments = DB::table('comments')
+                            ->join('users', 'users.id', '=', 'comments.user_id')
+                            ->join('trips', 'trips.id', '=', 'comments.trip_id')
+                            ->where('trips.id',$trip_id)
+                            ->select('trips.*','users.*','comments.*')
+                            ->orderBy('comments.id')
+                            ->get();
+        // dd($comments);
+
+        foreach ($comments as $key => $value) {
+               
+        }
+
         $find_users=Join::where('user_id',Auth::User()->id )->where('trip_id',$trip_id)->get();
 
             if(Auth::User()->id==$trip->user_id){
@@ -194,10 +210,8 @@ class TripController extends Controller
             }else{
                 $joins=-1;
             }
-    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans)->with('joins',$joins);
 
-
-    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans);
+    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans)->with('joins',$joins)->with('comments',$comments);
     }
     public function alltrip(){
         $tripall=Trip::all();
@@ -218,7 +232,13 @@ class TripController extends Controller
     public function message(Request $request){
 
     }
+    public function editTrip($trip_id){
 
+        $trip = Trip::find($trip_id);
+        $plans = Plan::where('trip_id',$trip_id)->orderBy('id')->get();
+        return view('trip/edit_trip')->with('trip', $trip)->with('plans', $plans);
+    
+    }
     public function manageuser($id){
         $user_joins=Join::where('trip_id',$id)->where('status',1)->get();
         $user_requests=Join::where('trip_id',$id)->where('status',0)->get();
@@ -235,12 +255,5 @@ class TripController extends Controller
     public function accept(Request $request){
     Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',0)->update(['status'=>1]);
         return redirect('http://localhost/bigproject/public/trip/manageuser/{id}');
-    }
-    public function editTrip($trip_id){
-
-        $trip = Trip::find($trip_id);
-        $plans = Plan::where('trip_id',$trip_id)->orderBy('id')->get();
-        return view('trip/edit_trip')->with('trip', $trip)->with('plans', $plans);
-    
     }
 }
