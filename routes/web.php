@@ -35,6 +35,14 @@ Route::post('/user/create/{trip_id}','TripController@postTripCover');
 Route::get('/trip/detail-trip/{trip_id}','TripController@detailTrip');
 Route::get('/trip/manageuser/{id}','TripController@manageuser');
 
+
 Route::post('trip/delete_user_join','TripController@delete_user_join');
 Route::post('trip/delete_user_request','TripController@delete_user_request');
 Route::post('trip/accept','TripController@accept');
+
+Route::get('trip/edit-trip/{trip_id}', 'TripController@editTrip');
+
+Route::get('/user/detail-info/{user_id}','UserController@info');
+
+Route::post('/trip/edit-trip/post-edit/{trip_id}', 'TripController@postEditTrip');
+

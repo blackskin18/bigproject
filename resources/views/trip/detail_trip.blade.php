@@ -7,8 +7,16 @@
 	<?php
 		$link_img = asset($trip->cover);
 	?>
+
+
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
-    <script src="{{ asset('js/create_trip.js') }}"></script>
+   
 	<style type="text/css" media="screen">
 
 		div#cover{
@@ -18,6 +26,7 @@
 			background-size: cover;
 			border-radius: 10px;
 		}
+
 	</style>
 
 @section('content_right')
@@ -93,6 +102,7 @@
 		<form action="#map">
 	    	<input type="submit" value="show map" class="btn btn-primary btn-md" />
 		</form>
+
 		@if(Auth::User()->id==$trip->user_id)
 			
 		@else
@@ -152,6 +162,18 @@
 			@endif
 		</form>
 		
+
+
+		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
+	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
+		</form>
+
+<!-- 		<form >
+			<input type="button" name="" value="">
+		</form> -->
+		
+    
+
 	</div>
 	<div class="comment">
 		
@@ -220,6 +242,8 @@
 <!-- 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFviFQyjiV9qdj1tVihht1KiZ-NtvJgo&callback=initMap"
   type="text/javascript"  async defer ></script> -->
 @endsection
+
 @section('script')
 	<script type="text/javascript" src="{{asset('js/follow.js')}}"></script>
 @endsection
+
