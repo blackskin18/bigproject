@@ -7,7 +7,7 @@ $('.delete_user_join').click(function(){
         	headers: {
             	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             	'accepts': 'application/json',
-        }
+        	}
         });
         $.ajax({
         	url:"http://localhost/bigproject/public/trip/delete_user_join",
@@ -15,8 +15,8 @@ $('.delete_user_join').click(function(){
         	dataType:'json',
         	data:data,
         	success:function(data){
-        		$(this).fadeOut();
-        	}
+        		
+        	}	
         });
 });
 $('.delete_user_request').click(function(){
@@ -36,14 +36,14 @@ $('.delete_user_request').click(function(){
     	dataType:"json",
     	data:data,
     	success:function(data){
-    		$(this).fadeOut();
+    		
     	}
     });
 });
 $('.accept').click(function(){
 	var data={
 		trip_id:$("#trip_id_request").val(),
-		user_id:$("#user_id_request").val()
+		user_id:$("#user_id_request").val(),
 	}
 	$.ajaxSetup({
         	headers: {
@@ -57,9 +57,7 @@ $('.accept').click(function(){
     	dataType:"json",
     	data:data,
     	success:function(data){
-    		$('.user_request').fadeOut();
-    		$('.user_join').append('.user_request');
-    		$('.accept').fadeOut();
+
     	}
     });
 });

@@ -33,7 +33,8 @@ class UserController extends Controller
     				'verhicle'=>'required',
     				'phone'=>'required',
     				'note'=>'required',
-                    'email'=>'required'
+                    'email'=>'required',
+                    'gender'=> 'required|in:1,2'
     			],[
 
     			]);

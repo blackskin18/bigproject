@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Plan;
 use App\User;
 use App\Follow;
+use Validator;
 use App\Join;
 
 class TripController extends Controller
 {
-
  	public function __construct()
     {
         $this->middleware('auth');
@@ -50,9 +50,30 @@ class TripController extends Controller
     }
     public function postTrip(Request $request)
     {
-    	$user_id = Auth::user()->id;
+        $decode = json_decode($request, true);
 
+    	$user_id = Auth::user()->id;
     	$plan_jsons = $request->json;
+
+        Validator::make($plan_jsons[0], [
+            "trip_title" => "required",
+            "trip_note" => "required",
+            "trip_sum_member" => "required|Integer",
+            "trip_start_place" => "required",
+            ])->validate();
+
+        foreach ($plan_jsons as $key => $value) {
+            Validator::make($plan_jsons[$key], [
+            "place_start_lat" => "required",
+            "place_start_lng" => "required",
+            "vehicle" => "required",
+            "note" => "required",
+            "time_start" => "required",
+            "time_end" => "required",
+            "end_place" => "required",
+            "start_place" => "required",
+            ])->validate();
+        }
 
     	$trip = new Trip;
     	$trip->title = $plan_jsons[0]['trip_title'];
@@ -83,24 +104,82 @@ class TripController extends Controller
 
     public function postTripCover($trip_id, Request $request) {
     	$trip = Trip::find($trip_id);
+
     	if ($request->hasFile('cover'))
 		    {
                 $file = $request->file('cover');
-                
                 $file->move(public_path().'/img/cover/',$trip->id.'.jpg');
                 $trip->cover= '/img/cover/'.$trip->id.'.jpg';
+                $trip->save();
+                return 1;
 		    }
-		else {
-			return "không có file";
-		}
-		$trip->save();
+        else{
+            
+        }
+		
     }
 
+    public function postEditTrip(Request $request, $trip_id){
+        $user_id = Auth::user()->id;
+        $plan_jsons = $request->json;
+
+        Validator::make($plan_jsons[0], [
+            "trip_title" => "required",
+            "trip_note" => "required",
+            "trip_sum_member" => "required|Integer",
+            "trip_start_place" => "required",
+            ])->validate();
+
+        foreach ($plan_jsons as $key => $value) {
+            Validator::make($plan_jsons[$key], [
+            "place_start_lat" => "required",
+            "place_start_lng" => "required",
+            "vehicle" => "required",
+            "note" => "required",
+            "time_start" => "required",
+            "time_end" => "required",
+            "end_place" => "required",
+            "start_place" => "required",
+            ])->validate();
+        }
+        //edit info trip
+        $trip = Trip::find($trip_id);
+        $trip->title = $plan_jsons[0]['trip_title'];
+        $trip->status = $plan_jsons[0]['trip_note'];
+        $trip->sum_member = $plan_jsons[0]['trip_sum_member'];
+        $trip->start_place = $plan_jsons[0]['trip_start_place'];
+        $trip->user_id = $user_id;
+        $trip->save();
+
+        //delete all plan
+        $old_plans = Trip::find($trip_id)->plan;
+        foreach ($old_plans as $key => $old_plan) {
+            $old_plan->delete();
+        }
+
+        // insert new plan
+        foreach ($plan_jsons as $key => $plan_json) {
+            $plan = new Plan;
+            $plan->trip_id = $trip_id;
+            $plan->place_start_lat = $plan_json['place_start_lat'];
+            $plan->place_start_lng = $plan_json['place_start_lng'];
+            $plan->verhicle = $plan_json['vehicle'];
+            $plan->active = $plan_json['note'];
+            $plan->time_start = $plan_json['time_start'];
+            $plan->time_end = $plan_json['time_end'];
+            $plan->end_place = $plan_json['end_place'];
+            $plan->start_place = $plan_json['start_place'];
+            $plan->save();
+        }
+        return $trip->id;
+
+    }
 
     function detailTrip($trip_id) {
     	$trip = Trip::find($trip_id);
     	$plans = Plan::where('trip_id',$trip_id)->orderBy('id','desc')->get();
         $find_users=Join::where('user_id',Auth::User()->id )->where('trip_id',$trip_id)->get();
+
             if(Auth::User()->id==$trip->user_id){
                 $joins=2;
             }
@@ -116,6 +195,9 @@ class TripController extends Controller
                 $joins=-1;
             }
     	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans)->with('joins',$joins);
+
+
+    	return view('trip/detail_trip')->with('trip',$trip)->with('plans',$plans);
     }
     public function alltrip(){
         $tripall=Trip::all();
@@ -136,6 +218,7 @@ class TripController extends Controller
     public function message(Request $request){
 
     }
+
     public function manageuser($id){
         $user_joins=Join::where('trip_id',$id)->where('status',1)->get();
         $user_requests=Join::where('trip_id',$id)->where('status',0)->get();
@@ -150,6 +233,14 @@ class TripController extends Controller
         return 0;
     }
     public function accept(Request $request){
-        
+    Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',0)->update(['status'=>1]);
+        return redirect('http://localhost/bigproject/public/trip/manageuser/{id}');
+    }
+    public function editTrip($trip_id){
+
+        $trip = Trip::find($trip_id);
+        $plans = Plan::where('trip_id',$trip_id)->orderBy('id')->get();
+        return view('trip/edit_trip')->with('trip', $trip)->with('plans', $plans);
+    
     }
 }

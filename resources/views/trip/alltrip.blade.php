@@ -17,7 +17,6 @@
 				?>
 				<div style="background-image: url({{$link_img}}); width: 980px; height: 400px; background-size: cover; border-radius: 30px">
 				</div>
-
 				<!-- <img src="{{$link_img}}" style="width: 100%; height: 250px;" alt="Cover" title="Cover"> --><br>
 				<strong>Số thành viên tham gia:</strong>{{$trip->sum_member}}<br>
 				<strong>Ngày khởi hành :</strong>{{$trip->start_date}}<br>

@@ -1,14 +1,18 @@
 @extends('/layouts.index')
     <script  src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-    <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
     <script src="{{ asset('js/create_trip.js') }}"></script>
 	<?php
 		$link_img = asset($trip->cover);
 	?>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
-    <script src="{{ asset('js/create_trip.js') }}"></script>
+   
 	<style type="text/css" media="screen">
 
 		div#cover{
@@ -151,7 +155,10 @@
 				</div>
 			@endif
 		</form>
-		
+
+		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
+	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
+		</form>
 	</div>
 	<div class="comment">
 		
