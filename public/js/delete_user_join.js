@@ -44,7 +44,7 @@ $('.accept').click(function(){
 	var data={
 		trip_id:$("#trip_id_request").val(),
 		user_id:$("#user_id_request").val(),
-	}
+	} 
 	$.ajaxSetup({
         	headers: {
             	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -57,7 +57,12 @@ $('.accept').click(function(){
     	dataType:"json",
     	data:data,
     	success:function(data){
-
-    	}
+           setTimeout(function(){
+            location.reload()
+           },0);
+    	},
+        error:function(){
+            alert('error');
+        }
     });
 });

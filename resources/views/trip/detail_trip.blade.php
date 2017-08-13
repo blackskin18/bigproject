@@ -1,4 +1,5 @@
 @extends('/layouts.index')
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
     <script  src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -104,16 +105,10 @@
 		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
 	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
 		</form>
-
 <!-- 		<form >
 			<input type="button" name="" value="">
 		</form> -->
-		
-    
-
-
-		@if(Auth::User()->id==$trip->user_id)
-			
+		@if(Auth::User()->id==$trip->user_id)			
 		@else
  			<?php  
 				$follow=0;
@@ -129,7 +124,6 @@
 				 	 ?>
 			 	 @endif
 			@endforeach
-
 		<form action="#follow">
 				@if($follow==1) <button  value="1" class="btn btn-success follow" >Unfollow</button>
 				@else <button  value="0" class="btn btn-success follow" >Follow</button>
@@ -174,7 +168,6 @@
 		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
 	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
 		</form>
-
 	</div>
 	<div class="comment-layout">
 		<div class="show-comment" id="show-comment">
@@ -221,7 +214,7 @@
 									@endif
 								@endforeach
 							</div>
-							<div class="input-sub-comment" style="margin-left: 70px;">
+							<div class="input-sub-comment" style=" margin-left: 70px; margin-top: 10px; width: 800px;">
 								<a href="a">
 									<?php
 										$link_avatar_user = asset(Auth::User()->avatar)
@@ -229,8 +222,8 @@
 									
 									<div class="avatar-user" style="background-image: url({{$link_avatar_user}})" ></div>
 								</a>
-							 	<div class="form-group" style="width: 860px; display: inline-block; margin-top: 10px">
-								    <input type="email" class="form-control" id="input-sub-comment-{{$comment->id}}">
+							 	<div class="input-group" style="width: 760px;  margin-top: 0px">
+								    <input type="text" class="form-control" id="input-sub-comment-{{$comment->id}}"><span class="input-group-addon" id="img-sub-comment-{{$comment->id}}"><i class="fa fa-camera" ></i></span>
 							  	</div>
 							</div>
 						</div>
@@ -239,7 +232,7 @@
 				@endif
 			@endforeach
 		</div>
-		<div class="input-comment">
+		<div class="input-comment" style="margin-top: 20px;">
 				<a href="a">
 					<?php
 						$link_avatar_user = asset(Auth::User()->avatar)
@@ -247,8 +240,9 @@
 					
 					<div class="avatar-user" style="background-image: url({{$link_avatar_user}})"></div>
 				</a>
-			 	<div class="form-group" style="margin-top: 10px; display: inline-block; width: 930px">
+			 	<div class="input-group" style="margin-top: 20px; width: 900px; margin-bottom: 60px;">
 				    <input type="email" class="form-control" id="input-comment">
+					<span class="input-group-addon" ><i class="fa fa-camera"></i></span>
 			  	</div>
 		</div>
 	</div>

@@ -44,7 +44,7 @@
 			<h3><strong>List User Request </strong></h3>
 		</div>
 		@foreach($user_requests as $user_request)
-		<div class="col-lg-12 alert alert-dismissable fade in" style="margin: 15px;">
+		<div class="col-lg-12 alert alert-dismissable fade in user_request1" style="margin: 15px;">
 			
 				<div class="col-lg-5 row">
 					<img src="{{asset($user_request->user->avatar)}}" style="width: 200px; height: 170px;">
@@ -68,14 +68,13 @@
 					@endif
 				</div>
 				<div class="col-lg-2">
-					<button class="btn btn-danger delete_user_request " data-dismiss="alert">Delete</button>
+					<button class="btn btn-danger delete_user_request " data-dismiss="alert">Deny</button>
 				</div>
-				<div><input type="hidden" name="" id="trip_id_request" value="{{$user_request->trip_id}}"></div>
-				<div><input type="hidden" name="" id="user_id_request" value="{{$user_request->user_id}}"></div>
+				<div><input type="hidden"  id="trip_id_request" value="{{$user_request->trip_id}}"></div>
+				<div><input type="hidden"  id="user_id_request" value="{{$user_request->user_id}}"></div>
 				<div class="col-lg-1">
-					<button class="btn btn-primary accept" data-dismiss="alert" >Accept</button>
-				</div>
-			
+				<a href="http://localhost/bigproject/public/trip/manageuser/{{$user_request->trip_id}}"><button class="btn btn-primary accept" data-dismiss="alert" >Accept</button></a>
+				</div>		
 			<hr>
 		</div>
 		@endforeach

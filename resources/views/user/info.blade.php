@@ -11,9 +11,22 @@
 		$link_img = asset(Auth::User()->avatar);
 	?>
 <div class="">
-		<div class="content_left col-lg-4">
+		<div class="content_left col-lg-4 " data-role="main">
 			<div class="col-lg-10 col-lg-offset-2">
-				<img src="{{$link_img}}" alt="Avatar" title="Ảnh Đại Diện" style="height: 100px;"/>
+			<img src="{{$link_img}}" alt="Avatar" title="Ảnh Đại Diện" style="height: 100px;" id="avatar1" data-toggle="modal" data-target="#myModal"/>
+			  <div class="modal fade" id="myModal" role="dialog" >
+				<div class="modal-dialog" >			    
+				      <div class="modal-content" style="height: 500px; width: 700px;">
+				        <div class="modal-body">
+				          <img src="{{$link_img}}" style="height: 380px;">
+				        </div>
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        </div>
+				      </div>
+				      
+				    </div>
+				</div>
 			</div>
 			<br>
 			<hr>
@@ -140,4 +153,12 @@
 		</div>
 	</div>
 </div>
+@endsection
+@section('script')
+	<script type="text/javascript">
+			$('.pop').click(function(){
+				$('.imagepreview').attr('src',$(this).find('img').attr('src'));
+				$('#imagemodal').modal();
+			});
+	</script>	
 @endsection

@@ -3,7 +3,7 @@
 	<div class="row" style="height: 1000px;">
 		<div class="left col-lg-3">
 			<div >
-				<img src="{{asset($user->avatar)}}" title="Avatar" alt="Avatar" class="col-lg-12" style="left:25%;">
+				<img src="{{asset($user->avatar)}}" title="Avatar" alt="Avatar" class="col-lg-12" style="left:25%; height: 400px;">
 			</div>
 			<br>
 			<div class="input-group" style="left: 60%;">

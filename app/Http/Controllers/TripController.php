@@ -52,17 +52,14 @@ class TripController extends Controller
     public function postTrip(Request $request)
     {
         $decode = json_decode($request, true);
-
     	$user_id = Auth::user()->id;
     	$plan_jsons = $request->json;
-
         Validator::make($plan_jsons[0], [
             "trip_title" => "required",
             "trip_note" => "required",
             "trip_sum_member" => "required|Integer",
             "trip_start_place" => "required",
             ])->validate();
-
         foreach ($plan_jsons as $key => $value) {
             Validator::make($plan_jsons[$key], [
             "place_start_lat" => "required",
@@ -75,19 +72,15 @@ class TripController extends Controller
             "start_place" => "required",
             ])->validate();
         }
-
     	$trip = new Trip;
     	$trip->title = $plan_jsons[0]['trip_title'];
     	$trip->status = $plan_jsons[0]['trip_note'];
     	$trip->sum_member = $plan_jsons[0]['trip_sum_member'];
     	$trip->start_place = $plan_jsons[0]['trip_start_place'];
-
     	$trip->user_id = $user_id;
-
     	$trip->save();
     	$id = $trip->id;
-
-    	foreach ($plan_jsons as $key => $plan_json) {
+       	foreach ($plan_jsons as $key => $plan_json) {
     		$plan = new Plan;
     		$plan->trip_id = $id;
     		$plan->place_start_lat = $plan_json['place_start_lat'];
@@ -102,7 +95,6 @@ class TripController extends Controller
     	}
     	return $trip->id;
     }
-
     public function postTripCover($trip_id, Request $request) {
     	$trip = Trip::find($trip_id);
         
@@ -116,10 +108,8 @@ class TripController extends Controller
 		    }
         else{
             
-        }
-		
+        }		
     }
-
     public function postEditTrip(Request $request, $trip_id){
         $user_id = Auth::user()->id;
         $plan_jsons = $request->json;
@@ -151,13 +141,11 @@ class TripController extends Controller
         $trip->start_place = $plan_jsons[0]['trip_start_place'];
         $trip->user_id = $user_id;
         $trip->save();
-
         //delete all plan
         $old_plans = Trip::find($trip_id)->plan;
         foreach ($old_plans as $key => $old_plan) {
             $old_plan->delete();
         }
-
         // insert new plan
         foreach ($plan_jsons as $key => $plan_json) {
             $plan = new Plan;
@@ -173,9 +161,7 @@ class TripController extends Controller
             $plan->save();
         }
         return $trip->id;
-
     }
-
     function detailTrip($trip_id) {
     	$trip = Trip::find($trip_id);
     	$plans = Plan::where('trip_id',$trip_id)->orderBy('id','desc')->get();
@@ -250,10 +236,11 @@ class TripController extends Controller
     }
     public function delete_user_request(Request $request){
         Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',0)->delete();
-        return 0;
+        return 1;
     }
     public function accept(Request $request){
     Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',0)->update(['status'=>1]);
-        return redirect('http://localhost/bigproject/public/trip/manageuser/{id}');
+        // return redirect('http://localhost/bigproject/public/trip/manageuser/{id}');
+        return 1;
     }
 }

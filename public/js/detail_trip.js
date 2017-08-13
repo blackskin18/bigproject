@@ -33,11 +33,11 @@ function initAutocomplete() {
 		toggleShowSubComment(comment_id);
 	}
 }
-	function toggleShowSubComment (parent_comment_id){
-		$('button#btn-'+parent_comment_id).click(function(){
-	        $('div#sub-comment-layout-'+parent_comment_id).toggle();
-	    });
-	}
+	// function toggleShowSubComment (parent_comment_id){
+	// 	$('button#btn-'+parent_comment_id).click(function(){
+	//         $('div#sub-comment-layout-'+parent_comment_id).toggle();
+	//     });
+	// }
 
 function addListenerForSubInput(parent_comment_id) {
 		$('#input-sub-comment-'+parent_comment_id+'').on("keydown", function search(e) {
@@ -55,7 +55,6 @@ function addListenerForSubInput(parent_comment_id) {
 				        // 'accepts': 'application/json',
 				    }
 				});
-
 				$.ajax({
 				    	url: url,
 				        type: "post",
@@ -133,7 +132,6 @@ $(document).ready(function(){
 	    	var trip_id = $('#trip_id').val();
 	    	var user_id = $('#user_id').val();
 	    	var data = $('#input-comment').val();
-
         	var url = window.location.origin + '/bigproject/public' + '/trip/detail-trip/comment/'+trip_id+'/'+user_id;
 			$.ajaxSetup({
 			    headers: {
