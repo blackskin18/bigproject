@@ -48,3 +48,5 @@ Route::post('trip/accept','TripController@accept');
 Route::post('trip/detail-trip/comment/{trip_id}/{user_id}','CommentController@postComment');
 
 Route::post('trip/detail-trip/sub-comment/{trip_id}/{user_id}/{parent_comment_id}','CommentController@postSubComment');
+
+Route::post('/list/hot-trip', 'HomeController@listTrip');

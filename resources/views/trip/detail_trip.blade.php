@@ -87,23 +87,22 @@
 	</div>
 	<div id="button">
 		<form action="#cover">
-	    	<input type="submit" value="show cover" class="btn btn-primary btn-md" />
+	    	<input type="submit" value="move to cover" class="btn btn-primary btn-md" />
 		</form>
-		
 		<form action="#plan_list">
-	    	<input type="submit" value="show plan" class="btn btn-primary btn-md" />
+	    	<input type="submit" value="move to plan" class="btn btn-primary btn-md" />
 		</form>
 		<form action="#status">
-	    	<input type="submit" value="show status" class="btn btn-primary btn-md" />
+	    	<input type="submit" value="move to status" class="btn btn-primary btn-md" />
 		</form>
 		<form action="#map">
-	    	<input type="submit" value="show map" class="btn btn-primary btn-md" />
+	    	<input type="submit" value="move to map" class="btn btn-primary btn-md" />
 		</form>
-
-
+		@if($trip->user_id == Auth::User()->id)
 		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
 	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
 		</form>
+		@endif
 
 <!-- 		<form >
 			<input type="button" name="" value="">
@@ -170,7 +169,7 @@
 			@endif
 		</form>
 	</div>
-	<div class="comment-layout">
+	<div class="comment-layout" style="margin-top: 100px;">
 		<div class="show-comment" id="show-comment">
 			@foreach($comments as $ket =>  $comment)
 				@if($comment->parent_id == null)
@@ -190,7 +189,7 @@
 							<p> {{$comment->text}}</p>
 						</div>
 						<div class="show-sub-comment" style="width: 930px;">
-							<button id="btn-{{$comment->id}}" style="float:left; font-size: 13px">sub comment</button>
+							<button id="btn-{{$comment->id}}" class="btn-link" style="float:left; font-size: 13px">sub comment</button>
 						</div>
 						<div id="sub-comment-layout-{{$comment->id}}" style="display: none">
 							<div id="list-sub-comment-{{$comment->id}}">
@@ -238,7 +237,6 @@
 					<?php
 						$link_avatar_user = asset(Auth::User()->avatar)
 					?>
-					
 					<div class="avatar-user" style="background-image: url({{$link_avatar_user}})"></div>
 				</a>
 			 	<div class="form-group" style="margin-top: 10px; display: inline-block; width: 930px">

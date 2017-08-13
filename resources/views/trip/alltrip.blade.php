@@ -3,7 +3,7 @@
 
 
 
-<div class="container" id="alltrip">
+<div class="container-list" id="alltrip">
 	
 	@foreach($tripall as $trip)
 	<a href="trip/detail-trip/{{$trip->id}}" style="color: #333">
@@ -29,4 +29,5 @@
 	</a>
 	@endforeach
 </div>
+
 @endsection
