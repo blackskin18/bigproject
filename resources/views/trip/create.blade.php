@@ -96,7 +96,7 @@
 	    <div class="form-group map" style="margin-top: 20px; margin-left: 10px;">
 	    	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 	    	<div id="map"></div>
-	    	<input onclick="addJson()" type="button" value="submit" class="button-submit">
+	    	<input onclick="addJson()" type="button" value="submit" class="button-submit btn btn-success" style="margin: 30px  0  0 250px">
 	    </div>
 
     	
