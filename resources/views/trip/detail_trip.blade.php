@@ -124,15 +124,16 @@
 				 	 ?>
 			 	 @endif
 			@endforeach
-		<form action="#follow">
+
+		@endif
+		<div class="col-lg-6">
 				@if($follow==1) <button  value="1" class="btn btn-success follow" >Unfollow</button>
 				@else <button  value="0" class="btn btn-success follow" >Follow</button>
 				@endif
 					<input type="hidden" name="trip_id" value="{{$trip->id}}" id="trip_id">
 					<input type="hidden" id="user_id" name="user_id" value="{{Auth::User()->id}}">
-		</form>
-		@endif
-		<form >
+		</div><br><br>
+		<div class="row col-lg-3">
 			@if($joins==-1)
 				<div class="col-lg-3">
 					<button class="btn btn-warning join"  value="-1">Join</button>
@@ -163,8 +164,8 @@
 					<button class="btn btn-warning join" value="0">Cancel Request</button>
 				</div>
 			@endif
-		</form>
-
+		</div>
+		<br><br>
 		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
 	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
 		</form>

@@ -11,6 +11,8 @@ use App\User;
 use App\Follow;
 use Validator;
 use App\Join;
+use App\comment;
+use App\PictureComment;
 use DB;
 
 class TripController extends Controller
@@ -28,6 +30,7 @@ class TripController extends Controller
     	$tripall=Trip::all();
     	$user=User::find(Auth::User()->id);
     	$trip=Trip::find($trip_id);
+        $comments=comment::where('trip_id',$trip_id)->get();
         $find_users=Join::where('user_id',Auth::User()->id )->where('trip_id',$trip_id)->get();
             if($find_users->count()){
                 foreach($find_users as $find_user){
@@ -40,7 +43,7 @@ class TripController extends Controller
             }else{
                 $joins=-1;
             }
-    	return view('trip.detail',['trip'=>$trip,'tripall'=>$tripall,'user'=>$user,'joins'=>$joins]);
+    	return view('trip.detail',['trip'=>$trip,'tripall'=>$tripall,'user'=>$user,'joins'=>$joins,'comments'=>$comments]);
     }
     public function delete($id){
     	$trip=Trip::findOrFail($id);
@@ -242,5 +245,34 @@ class TripController extends Controller
     Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',0)->update(['status'=>1]);
         // return redirect('http://localhost/bigproject/public/trip/manageuser/{id}');
         return 1;
+    }
+    public function sub_comment(Request $request){
+        $comment=new comment;
+        $comment->parent_id=$request->parent_id;
+        $comment->trip_id=$request->trip_id;
+        $comment->user_id=$request->user_id;
+        $comment->text=$request->text;
+        $comment->save();
+        return $comment;
+    }
+    public function postuploadimage(Request $request){
+        if ($request->ajax()){
+            if ($request->hasFile('file')){
+                $imageFiles = $request->file('file');
+                // dd($imageFiles);
+                foreach ($request->file('file') as $fileKey => $fileObject ){
+                    $i=1;
+                    if ($fileObject->isValid()){
+
+                        $picture_comment=new PictureComment;                     
+                        $picture_comment->comment_id=$request->comment_id;
+                        $fileObject->move(public_path().'/image/comment',$picture_comment->comment_id.i.'.jpg');
+                        $picture_comment->picture='/image/comment/'.i.$picture_comment->comment_id.'.jpg';
+                        $picture_comment->save();
+                    }
+                    $i=i+1;
+                }
+            }
+        }
     }
 }

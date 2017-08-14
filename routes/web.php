@@ -45,3 +45,6 @@ Route::post('trip/delete_user_request','TripController@delete_user_request');
 Route::post('trip/accept','TripController@accept');
 Route::post('trip/detail-trip/comment/{trip_id}/{user_id}','CommentController@postComment');
 Route::post('trip/detail-trip/sub-comment/{trip_id}/{user_id}/{parent_comment_id}','CommentController@postSubComment');
+Route::get('/trip/comment/{id}','TripController@repply_comment');
+Route::post('trip/detail/sub_comment','TripController@sub_comment');
+Route::post('/trip/uploadimage','TripController@postuploadimage');

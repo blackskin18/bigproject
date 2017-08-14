@@ -33,11 +33,11 @@ function initAutocomplete() {
 		toggleShowSubComment(comment_id);
 	}
 }
-	// function toggleShowSubComment (parent_comment_id){
-	// 	$('button#btn-'+parent_comment_id).click(function(){
-	//         $('div#sub-comment-layout-'+parent_comment_id).toggle();
-	//     });
-	// }
+	function toggleShowSubComment (parent_comment_id){
+		$('button#btn-'+parent_comment_id).click(function(){
+	        $('div#sub-comment-layout-'+parent_comment_id).toggle();
+	    });
+	}
 
 function addListenerForSubInput(parent_comment_id) {
 		$('#input-sub-comment-'+parent_comment_id+'').on("keydown", function search(e) {

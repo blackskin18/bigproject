@@ -15,6 +15,6 @@ class comment extends Model
     	return $this->belongsTo('App\Trip');
     }
     public function picture_comment(){
-    	return $this->hasMany("PictureComment");
+    	return $this->hasMany("App\PictureComment");
     }
 }

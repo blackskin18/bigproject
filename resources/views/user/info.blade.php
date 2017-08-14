@@ -99,7 +99,7 @@
 							<h3><strong style="margin-right: 50px;">Note:</strong>{{$trip->title}}.Số thành viên tham gia:{{$trip->sum_member}}</h4></h3>To {{$trip->start_date}} From {{$trip->end_date}}
 								<img src="{{asset($trip->cover)}}" alt="cover" title="Cover" style="height: 250px;width: 450px; " class="img-responsive ">
 							<div class="col-lg-12 " style="margin-top: 10px;">
-								<a href="http://localhost/bigproject/public/trip/detail-trip/{{$trip->id}}" style="top:20%;"><button class="btn btn-danger col-lg-3" style="margin-right: 5px;" >Detail...</button></a>
+								<a href="/trip/detail/{{$trip->id}}" style="top:20%;"><button class="btn btn-danger col-lg-3" style="margin-right: 5px;" >Detail...</button></a>
 								<a href="http://localhost/bigproject/public/trip/delete/{{$trip->id}}"  style="margin-left: 20px;"><button class="btn btn-warning col-lg-3" style="margin-right: 5px;">Delete</button>  </a>
 								<a href="http://localhost/bigproject/public/trip/manageuser/{{$trip->id}}"><button class="btn btn-success col-lg-3">Manage User</button> </a>
 							</div>
@@ -117,8 +117,7 @@
 							<strong>To{{$join->trip->start_date}} From {{$join->trip->end_date}}</strong>
 							<div class="col-lg-8"> 
 								
-								<img src="{{asset($join->trip->cover
-								)}}" alt="Cover" title="cover" style="height: 250px;width: 450px;">
+								<img src="{{asset($join->trip->cover)}}" alt="Cover" title="cover" style="height: 250px;width: 450px;">
 							</div>
 							<div style="margin-top: 10px;" class="col-lg-4" >
 								<a href="http://localhost/bigproject/public/trip/detail/{{$join->trip_id}}"><button class="btn btn-success col-lg-8 col-lg-offset-4">Detail</button></a>
