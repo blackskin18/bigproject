@@ -65,6 +65,7 @@ function addListenerForSubInput(parent_comment_id) {
 				        success: function(data){
 				        	// alert(parent_comment_id)
 				        	//var obj = JSON.parse(data.responseText);
+				        	
 				        	console.log(data);
 				        	$('div.sub-comment').remove();
 
@@ -166,7 +167,7 @@ $(document).ready(function(){
 																<p>`+data.text+`</p>
 															</div>
 															<div class="show-sub-comment">
-																<button id="btn-`+data.comment_id+`" style="float:left; font-size: 13px">sub comment</button>
+																<button id="btn-`+data.comment_id+`" class="btn-link" style="float:left; font-size: 13px">sub comment</button>
 															</div>
 															<div id="sub-comment-layout-`+data.comment_id+`" style="display: none">
 																<div class="input-sub-comment" style="margin-left: 70px;">

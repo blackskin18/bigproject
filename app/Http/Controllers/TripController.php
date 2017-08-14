@@ -222,10 +222,15 @@ class TripController extends Controller
 
     }
     public function editTrip($trip_id){
-
         $trip = Trip::find($trip_id);
-        $plans = Plan::where('trip_id',$trip_id)->orderBy('id')->get();
-        return view('trip/edit_trip')->with('trip', $trip)->with('plans', $plans);
+        if ($trip->user_id == Auth::User()->id) {
+            $plans = Plan::where('trip_id',$trip_id)->orderBy('id')->get();
+            return view('trip/edit_trip')->with('trip', $trip)->with('plans', $plans);
+        }
+        else{   
+            return redirect('/');
+        }
+
     
     }
     public function manageuser($id){

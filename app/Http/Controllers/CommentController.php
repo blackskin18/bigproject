@@ -53,6 +53,7 @@ class CommentController extends Controller
                             ->select('trips.*','users.*','comments.*')
                             ->orderBy('comments.id')
                             ->get();
+                            // dd($comments);
         return $comments;
     }
 }
