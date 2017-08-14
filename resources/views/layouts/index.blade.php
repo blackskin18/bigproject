@@ -52,7 +52,7 @@
 @endsection
 
 @section('script')
-	<script type="text/javascript">
+<script type="text/javascript">
 		$('#hot-trip-tab').click(function(){
 			console.log('hot');
 			var data = "hot-trip";
