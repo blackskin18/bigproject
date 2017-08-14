@@ -34,32 +34,40 @@ class HomeController extends Controller
 
 
     public function listTrip(Request $request) {
-
         $list_type = $request->data;
+        // hot trip
         if($list_type == "hot-trip"){
             $trips = Trip::all();
             $all_comments = comment::all()->groupBy('trip_id');
 
             $trip_respone = [];
             $index_trip_respone = 0;
+            $index_array = 0;
 
-            foreach ($trips as $key => $trip) {
-                $sum_comment = comment::where('trip_id',$trip->id)->groupBy('trip_id')->count();
-                
-                if($sum_comment > 10){
-                    $trip_respone[$index_trip_respone] = $trip;
-                    $index_trip_respone++;
+            for ($i=0; $i < 5; $i++) { 
+                $max = comment::where('trip_id',$trips[0]->id)->groupBy('trip_id')->count();
+                $chose = $trips[0];
+                foreach ($trips as $key => $trip) {
+                    $sum_comment = comment::where('trip_id',$trip->id)->groupBy('trip_id')->count();
+                    if($sum_comment > $max){
+                        $max = $sum_comment;
+                        $chose = $trip;
+                        $index_array = $key;
+                    }
                 }
+                unset($trips[$index_array]);
+                $trip_respone[$i] = $chose;
             }
         return $trip_respone;
-            // return $trips;
         }
 
+        //all trip
         if($list_type == "all-trip"){
             $trips = Trip::all();
             return $trips;
         }
 
+        //new trip
         if($list_type == "new-trip"){
             $yesterday = Carbon::yesterday();
             $trips = Trip::all();

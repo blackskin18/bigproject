@@ -147,10 +147,10 @@
 				<label for="">place start</label> <input  class="form-control" type="text"  value="{{$plan->start_place}}">
 				<label for="">place end</label> <input class="form-control" type="text"  value="{{$plan->end_place}}">
 				<label for="">time start </label> <input class="datetimepicker" type="text" value="{{$plan->time_start}}" style="margin:10px; border-radius:3px; padding: 3px;"  > 
-				<label for=""> time end </label><input class="datetimepicker" type="text" value="{{$plan->time_end}}" style="margin:10px; border-radius:3px; padding: 3px;">
+				<label for=""> time end </label><input class="datetimepicker" type="text" value="{{$plan->time_end}}" style="margin:10px 0 0 95px; border-radius:3px; padding: 3px;">
 				<br>
-				<label for="">vehicle </label> <input type="text" value="{{$plan->verhicle}}" style="width: 230px; border-radius:3px; padding: 4px; margin-left: 23px;" >
-				<label for="" style="margin-left:10px;">note </label> <input type="text" value="{{$plan->active}}" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
+				<label for="">vehicle </label> <input type="text" value="{{$plan->verhicle}}" style="width: 175px; border-radius:3px; padding: 4px; margin-left: 23px;" >
+				<label for="" style="margin-left:10px;">active in end place </label> <input type="text" value="{{$plan->active}}" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
 				<input type="hidden" disabled value="{{$plan->place_start_lat}}">
 				<input type="hidden" disabled value="{{$plan->place_start_lng}}">
 			</div>

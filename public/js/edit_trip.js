@@ -125,10 +125,10 @@ function initAutocomplete() {
 				<label for="">place start</label> <input  class="form-control" type="text" >
 				<label for="">place end</label> <input class="form-control" type="text" >
 				<label for="">time start </label> <input type="text" class="datetimepicker" style="margin:10px; border-radius:3px; padding: 3px;" > 
-				<label for=""> time end </label><input  type="text" class="datetimepicker" style="margin:10px; border-radius:3px; padding: 3px;">
+				<label for="" > time end </label><input  type="text" class="datetimepicker" style="margin:10px 0 0 95px; border-radius:3px; padding: 3px;">
 				<br>
-				<label for="">vehicle </label> <input type="text" style="width: 230px; border-radius:3px; padding: 4px; margin-left: 23px;" >
-				<label for="" style="margin-left:10px;">note </label> <input type="text" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
+				<label for="">vehicle </label> <input type="text" style="width: 170px; border-radius:3px; padding: 4px; margin-left: 23px;" >
+				<label for="" style="margin-left:10px;">active in end place </label> <input type="text" style="width: 230px; border-radius:3px; padding: 3px; margin-left:32px;" >
 				<input type="hidden" disabled >
 				<input type="hidden" disabled>
 				<div>
