@@ -11,7 +11,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
     <script src="{{ asset('js/detail_trip.js') }}"></script>
@@ -28,13 +27,17 @@
 @section('content_right')
 	<input type="hidden" id="trip_id" value="{{$trip->id}}" disabled>
 	<input type="hidden" id="user_id" value="{{ Auth::user()->id }}" disabled>
+	<div style="width: 1150px; text-align: center;">
+	<strong style="font-size: 40px">
+		title: {{$trip->title}}
+	</strong><br>
+	</div>
+	<hr>
 	<div id="info-trip" style="width: 1150px">
 		<div id="cover">
 		</div>
 		<div id="detail">
-			<strong>
-				title: {{$trip->title}}
-			</strong><br>
+
 			<strong>
 				sum member: {{$trip->sum_member}}
 			</strong> <br>
@@ -42,7 +45,7 @@
 				start_place: {{$trip->start_place}}	
 			</strong>
 		</div>
-
+		<hr>
 		<div id="plan_list" >
 			@foreach($plans as $key => $plan)
 			<div class="plan">

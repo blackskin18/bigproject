@@ -63,7 +63,6 @@
 			        // 'accepts': 'application/json',
 			    }
 			});
-
 			$.ajax({
 			    	url: url,
 			        type: "post",
@@ -102,9 +101,7 @@
 			        	console.log(data)
 			        }
 			});
-
 		});
-
 		$('#new-trip-tab').click(function(){
 			 console.log('new');
 			 var data = "new-trip";
@@ -115,7 +112,6 @@
 			        // 'accepts': 'application/json',
 			    }
 			});
-
 			$.ajax({
 			    	url: url,
 			        type: "post",
@@ -156,7 +152,6 @@
 			        }
 			});
 		});
-
 		$('#all-trip-tab').click(function(){
 			console.log('all');
 			var data = "all-trip";
@@ -167,7 +162,6 @@
 			        // 'accepts': 'application/json',
 			    }
 			});
-
 			$.ajax({
 			    	url: url,
 			        type: "post",
@@ -207,6 +201,5 @@
 			        }
 			});
 		});
-
 	</script>
 @endsection

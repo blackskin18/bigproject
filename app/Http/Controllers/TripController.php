@@ -260,6 +260,8 @@ class TripController extends Controller
         return 0;
     }
     public function accept(Request $request){
-        
+    Join::where('trip_id',$request->trip_id)->where('user_id',$request->user_id)->where('status',0)->update(['status'=>1]);
+        // return redirect('http://localhost/bigproject/public/trip/manageuser/{id}');
+        return 1;
     }
 }
