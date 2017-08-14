@@ -233,6 +233,7 @@ class TripController extends Controller
 
     
     }
+
     public function manageuser($id){
         $user_joins=Join::where('trip_id',$id)->where('status',1)->get();
         $user_requests=Join::where('trip_id',$id)->where('status',0)->get();
@@ -279,5 +280,4 @@ class TripController extends Controller
                 }
             }
         }
-    }
 }

@@ -8,10 +8,12 @@
 	<?php
 		$link_img = asset($trip->cover);
 	?>
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script language="javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    
 
     <link rel="stylesheet" href="{{ asset('css/detail-trip.css') }}">
     <script src="{{ asset('js/detail_trip.js') }}"></script>
@@ -99,14 +101,12 @@
 	    	<input type="submit" value="move to map" class="btn btn-primary btn-md" />
 		</form>
 		@if($trip->user_id == Auth::User()->id)
-		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
-	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
-		</form>
-		@endif
 <!-- 		<form >
 			<input type="button" name="" value="">
 		</form> -->
-		@if(Auth::User()->id==$trip->user_id)			
+
+		@if(Auth::User()->id==$trip->user_id)
+			
 		@else
  			<?php  
 				$follow=0;
@@ -166,7 +166,12 @@
 		<br><br>
 		<form action="http://localhost/bigproject/public/trip/edit-trip/{{$trip->id}}">
 	    	<input type="submit" value="edit trip" class="btn btn-primary btn-md" />
-		</form>
+		</form>	
+
+
+<!-- 		<form >
+			<input type="button" name="" value="">
+		</form> -->
 	</div>
 	<div class="comment-layout" style="margin-top: 100px;">
 		<div class="show-comment" id="show-comment">
